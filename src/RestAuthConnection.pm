@@ -2,6 +2,7 @@ package RestAuthConnection;
 use strict;
 use warnings;
 use WWW::Curl::Share;
+use MIME::Base64;
 
 sub new {
     my $class = shift;
@@ -23,7 +24,9 @@ sub set_credentials {
     my $self = shift;
     $self->{_user} = shift;
     $self->{_pass} = shift;
-    $self->{_auth_header} = 'Basic XXXX';
+
+    my $encoded = encode_base64("$self->{_user}:$self->{_pass}");
+    $self->{_auth_header} = "Basic $encoded";
 }
 
 sub set_content_handler {
