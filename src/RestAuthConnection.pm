@@ -1,7 +1,8 @@
 package RestAuthConnection;
 use strict;
 use warnings;
-use WWW::Curl::Share;
+use WWW::Curl::Simple;
+require HTTP::Request;
 use MIME::Base64;
 
 sub new {
@@ -39,74 +40,38 @@ sub request {
     # * curl handler
     # * path
     my $self = shift;
-    my $curl = shift;
-    my $path = shift;
-    
-    $curl->setopt(WWW::Curl::Share::CURLOPT_URL(), $self->{_url} . $path);
+    my $req = shift;
 
-    #TODO: use correct content-type header
-    my @headers = (
-        "Authorization: $self->{_auth_header}",
-        "Accept: $self->{_mime}",
-    );
+    my $curl = WWW::Curl::Simple->new();
 
-    $curl->setopt(WWW::Curl::Share::CURLOPT_HTTPHEADER(), \@headers, 1);
+    $req->header('Authorization' => $self->{_auth_header});
+    $req->header(       'Accept' => $self->{_mime});
 
-    my $retcode = $curl->perform;
-    if ($retcode == 0) {
-        my $response_code = $curl->getinfo(WWW::Curl::Share::CURLINFO_HTTP_CODE());
-        if ($response_code == 500) {
-            print("Internal Server Error");
-        } elsif ($response_code == 401) {
-            print("Not authorized");
-        } else {
-            print("OK");
-        }
-    } else {
-        print("An error happened: $retcode " . $curl->strerror($retcode)." " . $curl->errbuf."\n");
-    }
-}
-
-sub curl_handler {
-    my $self = shift;
-
-    my $curl = new WWW::Curl::Easy;
-    $curl->setopt(WWW::Curl::Share::CURLOPT_HEADER(), 1);
-    $curl->setopt(WWW::Curl::Share::CURLOPT_TIMEOUT(), 2);
-    return $curl;
+    my $resp = $curl->request($req);
+    return $resp;
 }
 
 sub get {
     my $self = shift;
     my $path = shift;
-    my $curl = $self->curl_handler;
-    
-    my $response = $self->request($curl, $path);
-    my $response_code = $curl->getinfo(WWW::Curl::Share::CURLINFO_HTTP_CODE());
-    return $curl;
+
+    my $req = HTTP::Request->new(GET => $self->{_url} . $path);
+    return $self->request($req);
 }
 
 sub post {
     my $self = shift;
     my $path = shift;
-    
-    my $curl = $self->curl_handler;
-    $self->request($curl);
-    return $curl;
 }
 
 sub put {
     my $self = shift;
-    my $curl = $self->curl_handler;
     my $path = shift;
-    return $curl;
 }
 
 sub delete {
     my $self = shift;
-    my $curl = $self->curl_handler;
     my $path = shift;
-    return $curl;
 }
 1;
 
@@ -136,7 +101,6 @@ sub prefix {
     my $class = ref($self) || $self;
     my $varname = $class . "::prefix";
     no strict 'refs';
-    print $$varname, "\n";
     return $$varname;
 }
 

@@ -15,6 +15,7 @@ sub new {
 
 sub exists {
     my $self = shift;
-    $self->request_get("$self->{_name}/");
+    my $resp = $self->request_get("$self->{_name}/");
+    print 'resp: ', $resp, "\n";
 }
 1;
