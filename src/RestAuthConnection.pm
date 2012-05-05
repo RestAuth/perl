@@ -69,11 +69,11 @@ sub curl_handler {
 
 sub get {
     my $self = shift;
-    my @headers = ('foo', 'bar');
     my $curl = $self->curl_handler;
     
-    #print $headers, "\n";
     my $response = $self->request($curl, @headers);
+    my $response_code = $curl->getinfo(WWW::Curl::Share::CURLINFO_HTTP_CODE());
+    print("Response code: $response_code");
 }
 
 sub post {
