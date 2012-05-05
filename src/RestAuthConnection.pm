@@ -49,12 +49,16 @@ sub request {
     my $retcode = $curl->perform;
     if ($retcode == 0) {
         my $response_code = $curl->getinfo(WWW::Curl::Share::CURLINFO_HTTP_CODE());
-        print("Response code: $response_code");
-#        print("Received response: $response_body\n");
+        if ($response_code == 500) {
+            print("Internal Server Error");
+        } elsif ($response_code == 401) {
+            print("Not authorized");
+        } else {
+            print("OK");
+        }
     } else {
         print("An error happened: $retcode " . $curl->strerror($retcode)." " . $curl->errbuf."\n");
     }
-    print 'request';
 }
 
 sub curl_handler {
@@ -71,7 +75,7 @@ sub get {
     my $self = shift;
     my $curl = $self->curl_handler;
     
-    my $response = $self->request($curl, @headers);
+    my $response = $self->request($curl);
     my $response_code = $curl->getinfo(WWW::Curl::Share::CURLINFO_HTTP_CODE());
     print("Response code: $response_code");
 }
