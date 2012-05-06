@@ -4,6 +4,7 @@ use warnings;
 use WWW::Curl::Share;
 use HTTP::Response;
 use MIME::Base64;
+use RestAuthError;
 
 sub new {
     my $class = shift;
@@ -56,16 +57,18 @@ sub request {
 
     my $retcode = $curl->perform;
     if ($retcode == 0) {
-        my $response_code = $curl->getinfo(WWW::Curl::Share::CURLINFO_HTTP_CODE());
-        if ($response_code == 500) {
-            print("Internal Server Error");
-        } elsif ($response_code == 401) {
-            print("Not authorized");
+        my $response = HTTP::Response->parse($response_body);
+        if ($response->code == 500) {
+            throw RestAuthInternalServerError($response);
+        } elsif ($response->code == 401) {
+            throw RestAuthUnauthorized($response);
+        } elsif ($response->code == 403) {
+            throw RestAuthForbidden($response);
         } else {
-            return $resp = HTTP::Response->parse($response_body);
+            return $response;
         }
     } else {
-        print("An error happened: $retcode " . $curl->strerror($retcode)." " . $curl->errbuf."\n");
+        throw RestAuthConnectionError($curl);
     }
 }
 
@@ -84,8 +87,7 @@ sub get {
     my $curl = $self->curl_handler;
     
     my $response = $self->request($curl, $path);
-    my $response_code = $curl->getinfo(WWW::Curl::Share::CURLINFO_HTTP_CODE());
-    return $curl;
+    return $response;
 }
 
 sub post {
@@ -93,8 +95,8 @@ sub post {
     my $path = shift;
     
     my $curl = $self->curl_handler;
-    $self->request($curl);
-    return $curl;
+    my $response = $self->request($curl);
+    return $response;
 }
 
 sub put {
