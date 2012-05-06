@@ -44,13 +44,13 @@ sub request {
     
     #TODO: use correct content-type header
     my @headers = (
-        "Accept: $self->{_mime}",
         "Authorization: $self->{_auth_header}",
+        "Accept: $self->{_mime}",
     );
+    $curl->setopt(WWW::Curl::Share::CURLOPT_HTTPHEADER(), \@headers, 1);
 
     $curl->setopt(WWW::Curl::Share::CURLOPT_URL(), $self->{_url} . $path);
     $curl->setopt(WWW::Curl::Share::CURLOPT_WRITEDATA(), \$response_body);
-    $curl->setopt(WWW::Curl::Share::CURLOPT_HTTPHEADER(), \@headers, 1);
 
     my $retcode = $curl->perform;
     if ($retcode == 0) {
