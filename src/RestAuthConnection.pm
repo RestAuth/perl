@@ -95,22 +95,24 @@ sub post {
     my $path = shift;
     
     my $curl = $self->curl_handler;
-    my $response = $self->request($curl);
+    my $response = $self->request($curl, $path);
     return $response;
 }
 
 sub put {
     my $self = shift;
-    my $curl = $self->curl_handler;
     my $path = shift;
-    return $curl;
+    my $curl = $self->curl_handler;
+    my $response = $self->request($curl, $path);
+    return $response;
 }
 
 sub delete {
     my $self = shift;
-    my $curl = $self->curl_handler;
     my $path = shift;
-    return $curl;
+    my $curl = $self->curl_handler;
+    my $response = $self->request($curl, $path);
+    return $response;
 }
 1;
 
