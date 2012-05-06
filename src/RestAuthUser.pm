@@ -16,6 +16,19 @@ sub new {
     return $self;
 }
 
+sub get {
+    my $class = shift;
+    my $conn = shift;
+    my $name = shift;
+    
+    my $user = $class->new($conn, $name);
+    if ($user->exists()) {
+        return $user;
+    } else {
+        throw RestAuthUserDoesNotExist("User does not exist.");
+    }
+}
+
 sub exists {
     my $self = shift;
     my $response = $self->request_get("$self->{_name}/");
