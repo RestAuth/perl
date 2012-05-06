@@ -56,3 +56,13 @@ our $code = 500;
 package RestAuthUnknownStatus;
 use base RestAuthHttpError;
 1;
+
+package RestAuthResourceDoesNotExist;
+use base RestAuthError;
+1;
+package RestAuthUserDoesNotExist;
+use base RestAuthResourceDoesNotExist;
+1;
+package RestAuthGroupDoesNotExist;
+use base RestAuthResourceDoesNotExist;
+1;
