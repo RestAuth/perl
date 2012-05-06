@@ -16,9 +16,6 @@ sub new {
     $self->set_credentials(shift, shift);
     $self->set_content_handler(shift);
 
-    #TODO: useful?
-    #$self->{_curlsh} = new WWW::Curl::Share;
-
     return $self;
 }
 
