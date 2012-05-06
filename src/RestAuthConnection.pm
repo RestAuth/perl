@@ -44,8 +44,8 @@ sub request {
     
     #TODO: use correct content-type header
     my @headers = (
-        "Authorization: $self->{_auth_header}",
         "Accept: $self->{_mime}",
+        "Authorization: $self->{_auth_header}",
     );
     $curl->setopt(WWW::Curl::Share::CURLOPT_HTTPHEADER(), \@headers, 1);
 
