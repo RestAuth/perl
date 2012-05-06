@@ -16,5 +16,6 @@ sub new {
 sub exists {
     my $self = shift;
     $self->request_get("$self->{_name}/");
+    return 1;
 }
 1;

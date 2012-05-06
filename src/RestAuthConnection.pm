@@ -2,6 +2,7 @@ package RestAuthConnection;
 use strict;
 use warnings;
 use WWW::Curl::Share;
+use HTTP::Response;
 use MIME::Base64;
 
 sub new {
@@ -41,15 +42,16 @@ sub request {
     my $self = shift;
     my $curl = shift;
     my $path = shift;
+    my $response_body;
     
-    $curl->setopt(WWW::Curl::Share::CURLOPT_URL(), $self->{_url} . $path);
-
     #TODO: use correct content-type header
     my @headers = (
         "Authorization: $self->{_auth_header}",
         "Accept: $self->{_mime}",
     );
 
+    $curl->setopt(WWW::Curl::Share::CURLOPT_URL(), $self->{_url} . $path);
+    $curl->setopt(WWW::Curl::Share::CURLOPT_WRITEDATA(), \$response_body);
     $curl->setopt(WWW::Curl::Share::CURLOPT_HTTPHEADER(), \@headers, 1);
 
     my $retcode = $curl->perform;
@@ -60,7 +62,7 @@ sub request {
         } elsif ($response_code == 401) {
             print("Not authorized");
         } else {
-            print("OK");
+            return $resp = HTTP::Response->parse($response_body);
         }
     } else {
         print("An error happened: $retcode " . $curl->strerror($retcode)." " . $curl->errbuf."\n");
@@ -136,7 +138,6 @@ sub prefix {
     my $class = ref($self) || $self;
     my $varname = $class . "::prefix";
     no strict 'refs';
-    print $$varname, "\n";
     return $$varname;
 }
 
