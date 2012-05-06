@@ -48,7 +48,6 @@ sub request {
         "Authorization: $self->{_auth_header}",
     );
     $curl->setopt(WWW::Curl::Share::CURLOPT_HTTPHEADER(), \@headers, 1);
-
     $curl->setopt(WWW::Curl::Share::CURLOPT_URL(), $self->{_url} . $path);
     $curl->setopt(WWW::Curl::Share::CURLOPT_WRITEDATA(), \$response_body);
 
