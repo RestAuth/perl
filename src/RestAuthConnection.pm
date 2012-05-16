@@ -164,7 +164,7 @@ sub request_post {
     my ($self, $path, $body) = shift;
     $path = $self->prefix . $path;
     
-    #return $self->{_conn}->post($path, $body);
+    return $self->{_conn}->post($path, $body);
 }
 
 sub request_put {

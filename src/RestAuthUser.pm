@@ -65,7 +65,16 @@ sub exists {
 }
 
 sub verify_password {
+    my ($self, $password) = @_;
     
+    my $response = $self->request_post("$self->{_name}", {'password' => $password});
+    if ($response->code == 201) {
+        return 1;
+    } elsif ($response->code == 404) {
+        return 0;
+    } else {
+        throw RestAuthUnknownStatus($response);
+    }
 }
 
 sub set_password {
