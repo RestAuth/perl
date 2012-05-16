@@ -23,12 +23,8 @@ sub new {
 }
 
 sub set_credentials {
-    my $self = shift;
-    $self->{_user} = shift;
-    $self->{_pass} = shift;
-
-    my $encoded = encode_base64("$self->{_user}:$self->{_pass}");
-    $self->{_auth_header} = "Basic $encoded";
+    my ($self, $user, $pass) = @_;
+    $self->{_auth_header} = "Basic " . encode_base64("$user:$pass");
 }
 
 sub set_content_handler {
