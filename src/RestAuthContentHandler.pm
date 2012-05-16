@@ -40,7 +40,7 @@ sub encode_array {
 
 sub decode {
     my ($self, $raw) = @_;
-    return decode_json($raw);
+    return @{decode_json($raw)};
 }
 
 1;

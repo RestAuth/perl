@@ -1,9 +1,11 @@
 package RestAuthConnection;
 use strict;
 use warnings;
+
 use WWW::Curl::Share;
 use HTTP::Response;
 use MIME::Base64;
+
 use RestAuthError;
 use RestAuthContentHandler;
 
@@ -69,7 +71,7 @@ sub request {
         push(@headers, 'Content-type: ' . $self->get_mime_type);
     }
     
-    # Set the autorization header.
+    # Add the autorization header.
     # WARNING: For some reason, this must be the *last* header in the list!
     push(@headers, "Authorization: $self->{_auth_header}");
     
@@ -118,6 +120,7 @@ package RestAuthContentHandler;
 1;
 
 package RestAuthResource;
+
 sub new {
     my $class = shift;
     my $self = {
