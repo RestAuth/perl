@@ -170,6 +170,8 @@ sub request_post {
 sub request_put {
     my ($self, $path, $body) = @_;
     $path = $self->prefix . $path;
+    
+    return $self->{_conn}->put($path, $body);
 }
 
 sub request_delete {
