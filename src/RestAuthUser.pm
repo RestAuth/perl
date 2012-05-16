@@ -31,7 +31,7 @@ sub get {
 sub get_all {
     my ($class, $conn) = @_;
 
-    my $resp = $conn->get('/users/');
+    my $resp = $conn->get($prefix);
     my @users = ();
     my @usernames = $conn->{_content_handler}->decode($resp->content());
     
@@ -49,7 +49,7 @@ sub create {
     $body{'password'} = $password if defined $password;
     $body{'properties'} = $properties if defined $properties;
     
-    $conn->post('/users/', \%body);
+    $conn->post($prefix, \%body);
 }
 
 sub exists {
