@@ -18,9 +18,7 @@ sub new {
 }
 
 sub get {
-    my $class = shift;
-    my $conn = shift;
-    my $name = shift;
+    my ($class, $conn, $name) = @_;
     
     my $user = $class->new($conn, $name);
     if ($user->exists()) {
@@ -31,8 +29,7 @@ sub get {
 }
 
 sub get_all {
-    my $class = shift;
-    my $conn = shift;
+    my ($class, $conn) = @_;
 
     my $resp = $conn->get('/users/');
     my @users = ();
