@@ -58,8 +58,7 @@ sub create {
         throw RestAuthPreconditionFailed($response);
     } else {
         throw RestAuthUnknownStatus($response);
-    }
-    
+    }   
 }
 
 sub exists {
@@ -91,8 +90,12 @@ sub verify_password {
 sub set_password {
     my ($self, $password) = @_;
     
-    my $response = $self->request_put("$self->{_name}/",
-                                      {'password' => $password});
+    my %body = ();
+    if ($password) {
+        $body{'password'} = $password;
+    }
+    
+    my $response = $self->request_put("$self->{_name}/", \%body);
     if ($response->code == 204) {
         return 1;
     } elsif ($response->code == 404) {
