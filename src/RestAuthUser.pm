@@ -77,7 +77,8 @@ sub exists {
 sub verify_password {
     my ($self, $password) = @_;
     
-    my $response = $self->request_post("$self->{_name}/", {'password' => $password});
+    my $response = $self->request_post("$self->{_name}/",
+                                       {'password' => $password});
     if ($response->code == 204) {
         return 1;
     } elsif ($response->code == 404) {
@@ -88,11 +89,32 @@ sub verify_password {
 }
 
 sub set_password {
+    my ($self, $password) = @_;
     
+    my $response = $self->request_put("$self->{_name}/",
+                                      {'password' => $password});
+    if ($response->code == 204) {
+        return 1;
+    } elsif ($response->code == 404) {
+        throw RestAuthUserDoesNotExist($response);
+    } elsif ($response->code == 412) {
+        throw RestAuthPreconditionFailed($response);
+    } else {
+        throw RestAuthUnknownStatus($response);
+    } 
 }
 
 sub remove {
+    my $self = shift;
     
+    my $response = $self->request_delete("$self->{_name}/");
+    if ($response->code == 204) {
+        return 1;
+    } elsif ($response->code == 404) {
+        throw RestAuthUserDoesNotExist($response);
+    } else {
+        throw RestAuthUnknownStatus($response);
+    }
 }
 
 1;
