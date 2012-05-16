@@ -5,7 +5,7 @@ use WWW::Curl::Share;
 use HTTP::Response;
 use MIME::Base64;
 use RestAuthError;
-use RestAuthJsonContentHandler;
+use RestAuthContentHandler;
 use JSON;
 
 sub new {
@@ -17,11 +17,6 @@ sub new {
 
     $self->set_credentials(shift, shift);
     $self->set_content_handler(shift);
-    
-    my $content_handler = shift;
-    if (! defined $content_handler) {
-        $content_handler = new RestAuthJsonContentHandler();
-    }
 
     return $self;
 }
@@ -37,12 +32,16 @@ sub set_credentials {
 
 sub set_content_handler {
     my $self = shift;
-    $self->{_mime} = shift;
+    $self->{_content_handler} = shift;
+    
+    if (! defined $self->{_content_handler}) {
+        $self->{_content_handler} = new RestAuthJsonContentHandler();
+    }
 }
 
 sub get_mime_type {
     my $self = shift;
-    return $self->{_content_handler}->{_mime_type};
+    return $self->{_content_handler}->mime_type;
 }
 
 sub request {
