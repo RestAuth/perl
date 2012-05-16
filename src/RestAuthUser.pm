@@ -2,6 +2,7 @@ package RestAuthUser;
 use RestAuthConnection;
 use RestAuthError;
 use JSON;
+use Data::Dumper;
 
 our @ISA = qw(RestAuthResource);
 our $prefix = '/users/';
@@ -35,13 +36,30 @@ sub get_all {
     my $conn = shift;
 
     my $resp = $conn->get('/users/');
-    my @users;
+    my @users = ();
     my @usernames = @{decode_json($resp->content())};
+    
     foreach (@usernames) {
         push(@users, RestAuthUser->new($conn, $_));
     }
 
-    return $users;
+    return @users;
+}
+
+sub create {
+    my $class = shift;
+    my $conn = shift;
+    my $name = shift;
+    
+    my %body = ();
+    $body{'user'} = $name;
+    # TODO: add passwords and/or properties
+    $body{'foo'} = 'bar';
+    
+    # this is just the test-string to see if param-passing works:
+    my $raw = encode_json(\%body);
+    
+    $conn->post('/users/', \%body);
 }
 
 sub exists {
@@ -55,4 +73,5 @@ sub exists {
         throw RestAuthUnknownStatus($response);
     }
 }
+
 1;

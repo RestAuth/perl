@@ -5,6 +5,7 @@ use WWW::Curl::Share;
 use HTTP::Response;
 use MIME::Base64;
 use RestAuthError;
+use JSON;
 
 sub new {
     my $class = shift;
@@ -35,21 +36,36 @@ sub set_content_handler {
 
 sub request {
     # parameters:
-    # * curl handler
+    # * method
     # * path
-    my $self = shift;
-    my $curl = shift;
-    my $path = shift;
+    # * body (optional)
+    my ($self, $method, $path, $body) = @_;
     my $response_body;
+    my $curl = new WWW::Curl::Easy;
     
     #TODO: use correct content-type header
     my @headers = (
         "Accept: $self->{_mime}",
-        "Authorization: $self->{_auth_header}",
     );
-    $curl->setopt(WWW::Curl::Share::CURLOPT_HTTPHEADER(), \@headers, 1);
+    
+    # initialize CURL handler
+    $curl->setopt(WWW::Curl::Share::CURLOPT_HEADER(), 1);
+    $curl->setopt(WWW::Curl::Share::CURLOPT_TIMEOUT(), 2);
     $curl->setopt(WWW::Curl::Share::CURLOPT_URL(), $self->{_url} . $path);
     $curl->setopt(WWW::Curl::Share::CURLOPT_WRITEDATA(), \$response_body);
+    $curl->setopt(WWW::Curl::Share::CURLOPT_CUSTOMREQUEST(), $method);
+    
+    if ($body) {
+        $curl->setopt(WWW::Curl::Share::CURLOPT_POSTFIELDS(), $body);
+        push(@headers, 'Content-type: ' . $self->{_mime});
+    }
+    
+    # Set the autorization header.
+    # WARNING: For some reason, this must be the *last* header in the list!
+    push(@headers, "Authorization: $self->{_auth_header}");
+    
+    # set headers:
+    $curl->setopt(WWW::Curl::Share::CURLOPT_HTTPHEADER(), \@headers);
 
     my $retcode = $curl->perform;
     if ($retcode == 0) {
@@ -68,47 +84,26 @@ sub request {
     }
 }
 
-sub curl_handler {
-    my $self = shift;
-
-    my $curl = new WWW::Curl::Easy;
-    $curl->setopt(WWW::Curl::Share::CURLOPT_HEADER(), 1);
-    $curl->setopt(WWW::Curl::Share::CURLOPT_TIMEOUT(), 2);
-    return $curl;
-}
-
 sub get {
-    my $self = shift;
-    my $path = shift;
-    my $curl = $self->curl_handler;
-    
-    my $response = $self->request($curl, $path);
-    return $response;
+    my ($self, $path) = @_;
+    return $self->request('GET', $path);
 }
 
 sub post {
-    my $self = shift;
-    my $path = shift;
-    
-    my $curl = $self->curl_handler;
-    my $response = $self->request($curl, $path);
-    return $response;
+    my ($self, $path, $body) = @_;
+    my $encoded_body = encode_json(\%{$body});
+    return $self->request('POST', $path, $encoded_body);
 }
 
 sub put {
-    my $self = shift;
-    my $path = shift;
-    my $curl = $self->curl_handler;
-    my $response = $self->request($curl, $path);
-    return $response;
+    my ($self, $path, $body) = @_;
+    my $encoded_body = encode_json(\%{$body});
+    return $self->request('PUT', $path, $encoded_body);
 }
 
 sub delete {
-    my $self = shift;
-    my $path = shift;
-    my $curl = $self->curl_handler;
-    my $response = $self->request($curl, $path);
-    return $response;
+    my ($self, $path) = @_;
+    return $self->request('DELETE', $path);
 }
 1;
 
@@ -131,6 +126,24 @@ sub request_get {
     my $path = $self->prefix . shift;
     
     return $self->{_conn}->get($path);
+}
+
+sub request_post {
+    my ($self, $path, $body) = shift;
+    $path = $self->prefix . $path;
+    
+    #return $self->{_conn}->post($path, $body);
+}
+
+sub request_put {
+    my ($self, $path, $body) = shift;
+}
+
+sub request_delete {
+    my $self = shift;
+    my $path = $self->prefix . shift;
+    
+    return $self->{_conn}->delete($path);
 }
 
 sub prefix {
