@@ -68,7 +68,11 @@ sub request {
     if ($body) {
         my $encoded_body = $self->{_content_handler}->encode_array($body);
         $curl->setopt(WWW::Curl::Share::CURLOPT_POSTFIELDS(), $encoded_body);
-        push(@headers, 'Content-type: ' . $self->get_mime_type);
+        
+        push(@headers, 'Content-Type: ' . $self->get_mime_type);
+        # NOTE: The +2 is a magic value, otherwise the body is cropped
+        #       on the server-side.
+        push(@headers, 'Content-Length: ' . (length($encoded_body) + 2));
     }
     
     # Add the autorization header.
