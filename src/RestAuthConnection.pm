@@ -6,7 +6,6 @@ use HTTP::Response;
 use MIME::Base64;
 use RestAuthError;
 use RestAuthContentHandler;
-use JSON;
 
 sub new {
     my $class = shift;
@@ -53,7 +52,6 @@ sub request {
     my $response_body;
     my $curl = new WWW::Curl::Easy;
     
-    #TODO: use correct content-type header
     my @headers = (
         "Accept: " . $self->get_mime_type,
     );
