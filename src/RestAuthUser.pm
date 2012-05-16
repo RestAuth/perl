@@ -64,4 +64,16 @@ sub exists {
     }
 }
 
+sub verify_password {
+    
+}
+
+sub set_password {
+    
+}
+
+sub remove {
+    
+}
+
 1;
