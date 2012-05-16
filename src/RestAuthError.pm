@@ -48,6 +48,26 @@ use base RestAuthHttpError;
 our $code = 404;
 1;
 
+package RestAuthNotAcceptable;
+use base RestAuthHttpError;
+our $code = 406;
+1;
+
+package RestAuthConflict;
+use base RestAuthHttpError;
+our $code = 409;
+1;
+
+package RestAuthPreconditionFailed;
+use base RestAuthHttpError;
+our $code = 412;
+1;
+
+package RestAuthUnsupportedMediaType;
+use base RestAuthHttpError;
+our $code = 415;
+1;
+
 package RestAuthInternalServerError;
 use base RestAuthHttpError;
 our $code = 500;
