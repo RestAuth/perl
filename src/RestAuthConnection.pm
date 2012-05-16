@@ -91,6 +91,8 @@ sub request {
             throw RestAuthUnauthorized($response);
         } elsif ($response->code == 403) {
             throw RestAuthForbidden($response);
+        } elsif ($response->code == 406) {
+            throw RestAuthNotAcceptable($response);
         } else {
             return $response;
         }
@@ -106,12 +108,28 @@ sub get {
 
 sub post {
     my ($self, $path, $body) = @_;
-    return $self->request('POST', $path, $body);
+    my $response = $self->request('POST', $path, $body);
+    
+    if ($response->code == 400) {
+        throw RestAuthBadRequest($response);
+    } elsif ($response->code == 415) {
+        throw RestAuthUnsupportedMediaType($response);
+    } else {
+        return $response;
+    }
 }
 
 sub put {
     my ($self, $path, $body) = @_;
-    return $self->request('PUT', $path, $body);
+    my $response = $self->request('PUT', $path, $body);
+    
+    if ($response->code == 400) {
+        throw RestAuthBadRequest($response);
+    } elsif ($response->code == 415) {
+        throw RestAuthUnsupportedMediaType($response);
+    } else {
+        return $response;
+    }
 }
 
 sub delete {
