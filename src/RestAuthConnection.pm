@@ -5,6 +5,7 @@ use WWW::Curl::Share;
 use HTTP::Response;
 use MIME::Base64;
 use RestAuthError;
+use RestAuthJsonContentHandler;
 use JSON;
 
 sub new {
@@ -16,6 +17,11 @@ sub new {
 
     $self->set_credentials(shift, shift);
     $self->set_content_handler(shift);
+    
+    my $content_handler = shift;
+    if (! defined $content_handler) {
+        $content_handler = new RestAuthJsonContentHandler();
+    }
 
     return $self;
 }
@@ -34,6 +40,11 @@ sub set_content_handler {
     $self->{_mime} = shift;
 }
 
+sub get_mime_type {
+    my $self = shift;
+    return $self->{_content_handler}->{_mime_type};
+}
+
 sub request {
     # parameters:
     # * method
@@ -45,7 +56,7 @@ sub request {
     
     #TODO: use correct content-type header
     my @headers = (
-        "Accept: $self->{_mime}",
+        "Accept: " . $self->get_mime_type,
     );
     
     # initialize CURL handler
@@ -57,7 +68,7 @@ sub request {
     
     if ($body) {
         $curl->setopt(WWW::Curl::Share::CURLOPT_POSTFIELDS(), $body);
-        push(@headers, 'Content-type: ' . $self->{_mime});
+        push(@headers, 'Content-type: ' . $self->get_mime_type);
     }
     
     # Set the autorization header.
