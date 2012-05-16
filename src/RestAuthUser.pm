@@ -49,7 +49,17 @@ sub create {
     $body{'password'} = $password if defined $password;
     $body{'properties'} = $properties if defined $properties;
     
-    $conn->post($prefix, \%body);
+    my $response = $conn->post($prefix, \%body);
+    if ($response->code == 201) {
+        return new RestAuthUser($conn, $name);
+    } elsif ($response->code == 409) {
+        throw RestAuthConflict($response);
+    } elsif ($response->code == 412) {
+        throw RestAuthPreconditionFailed($response);
+    } else {
+        throw RestAuthUnknownStatus($response);
+    }
+    
 }
 
 sub exists {
@@ -67,8 +77,8 @@ sub exists {
 sub verify_password {
     my ($self, $password) = @_;
     
-    my $response = $self->request_post("$self->{_name}", {'password' => $password});
-    if ($response->code == 201) {
+    my $response = $self->request_post("$self->{_name}/", {'password' => $password});
+    if ($response->code == 204) {
         return 1;
     } elsif ($response->code == 404) {
         return 0;
