@@ -154,26 +154,27 @@ sub new {
 }
 
 sub request_get {
-    my $self = shift;
-    my $path = $self->prefix . shift;
+    my ($self, $path) = @_;
+    $path = $self->prefix . $path;
     
     return $self->{_conn}->get($path);
 }
 
 sub request_post {
-    my ($self, $path, $body) = shift;
+    my ($self, $path, $body) = @_;
     $path = $self->prefix . $path;
     
     return $self->{_conn}->post($path, $body);
 }
 
 sub request_put {
-    my ($self, $path, $body) = shift;
+    my ($self, $path, $body) = @_;
+    $path = $self->prefix . $path;
 }
 
 sub request_delete {
-    my $self = shift;
-    my $path = $self->prefix . shift;
+    my ($self, $path) = @_;
+    $path = $self->prefix . $path;
     
     return $self->{_conn}->delete($path);
 }
