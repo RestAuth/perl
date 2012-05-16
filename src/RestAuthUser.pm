@@ -46,12 +46,11 @@ sub get_all {
 }
 
 sub create {
-    my $class = shift;
-    my $conn = shift;
-    my $name = shift;
+    my ($class, $conn, $name, $password, $properties) = @_;
     
-    my %body = ();
-    $body{'user'} = $name;
+    my %body = ('user' => $name);
+    $body{'password'} = $password if defined $password;
+    $body{'properties'} = $properties if defined $properties;
     
     $conn->post('/users/', \%body);
 }
