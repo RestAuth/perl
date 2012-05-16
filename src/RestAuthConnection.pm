@@ -66,7 +66,8 @@ sub request {
     $curl->setopt(WWW::Curl::Share::CURLOPT_CUSTOMREQUEST(), $method);
     
     if ($body) {
-        $curl->setopt(WWW::Curl::Share::CURLOPT_POSTFIELDS(), $body);
+        my $encoded_body = $self->{_content_handler}->encode_array($body);
+        $curl->setopt(WWW::Curl::Share::CURLOPT_POSTFIELDS(), $encoded_body);
         push(@headers, 'Content-type: ' . $self->get_mime_type);
     }
     
@@ -101,14 +102,12 @@ sub get {
 
 sub post {
     my ($self, $path, $body) = @_;
-    my $encoded_body = encode_json(\%{$body});
-    return $self->request('POST', $path, $encoded_body);
+    return $self->request('POST', $path, $body);
 }
 
 sub put {
     my ($self, $path, $body) = @_;
-    my $encoded_body = encode_json(\%{$body});
-    return $self->request('PUT', $path, $encoded_body);
+    return $self->request('PUT', $path, $body);
 }
 
 sub delete {
