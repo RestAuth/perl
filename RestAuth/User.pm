@@ -137,4 +137,24 @@ sub remove {
     }
 }
 
+sub get_properties {
+    my $self = shift;
+}
+
+sub create_property {
+    my $self = shift;
+}
+
+sub get_property {
+    my $self = shift;
+}
+
+sub set_property {
+    my $self = shift;
+}
+
+sub remove_property {
+    my $self = shift;
+}
+
 1;
