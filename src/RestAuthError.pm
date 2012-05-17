@@ -58,6 +58,18 @@ use base RestAuthHttpError;
 our $code = 409;
 1;
 
+package RestAuthUserExists;
+use base RestAuthConflict;
+1;
+
+package RestAuthGroupExists;
+use base RestAuthConflict;
+1;
+
+package RestAuthPropertyExists;
+use base RestAuthConflict;
+1;
+
 package RestAuthPreconditionFailed;
 use base RestAuthHttpError;
 our $code = 412;
