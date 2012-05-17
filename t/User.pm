@@ -213,17 +213,34 @@ use base qw(BaseTest);
 
 sub test_ok {
     my $self = shift;
-}
-
-sub test_wrong_password {
-    my $self = shift;
+    
+    my $user = RestAuth::User->create($self->{conn}, 'username', 'userpassword');
+    $user->set_password('newpassword');
+    
+    $self->assert($user->verify_password('newpassword'));
+    $self->assert(!$user->verify_password('userpassword'));
 }
 
 sub test_user_doesnt_exist {
     my $self = shift;
+    
+    my $user = RestAuth::User->new($self->{conn}, 'username');
+    $self->assertRaises(RestAuth::Error::UserDoesNotExist, sub {
+        $user->set_password('newpassword');
+    });
 }
 
-sub test_too_short {}
+sub test_too_short {
+    my $self = shift;
+    
+    my $user = RestAuth::User->create($self->{conn}, 'username', 'userpassword');
+    $self->assertRaises(RestAuth::Error::PreconditionFailed, sub {
+        $user->set_password('a');
+    });
+    
+    $self->assert($user->verify_password('userpassword'));
+    $self->assert(!$user->verify_password('a'));
+}
 1;
 
 package UserRemove;
