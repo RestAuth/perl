@@ -162,7 +162,20 @@ use base qw(BaseTest);
 
 sub test_exists {
     my $self = shift;
+    
+    my $created = RestAuthUser->create($self->{conn}, 'username', 'userpassword');
+    $self->assert($created->exists());
+    
+    my $local_instance = new RestAuthUser($self->{conn}, 'username');
+    $self->assert($local_instance->exists());
 };
+
+sub test_doesnt_exist {
+    my $self = shift;
+    
+    my $local_instance = new RestAuthUser($self->{conn}, 'username');
+    $self->assert(! $local_instance->exists());
+}
 
 1;
 
