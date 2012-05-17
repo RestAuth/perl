@@ -1,4 +1,7 @@
 package BaseTest;
+use strict;
+use warnings;
+
 use base qw(Test::Unit::TestCase);
 use Scalar::Util qw(blessed);
 use List::Compare;
