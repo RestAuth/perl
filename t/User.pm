@@ -160,7 +160,9 @@ use BaseTest;
 use RestAuthUser;
 use base qw(BaseTest);
 
-sub test_exists {};
+sub test_exists {
+    my $self = shift;
+};
 
 1;
 
@@ -169,7 +171,17 @@ use BaseTest;
 use RestAuthUser;
 use base qw(BaseTest);
 
-sub test_ok {}
+sub test_ok {
+    my $self = shift;
+}
+
+sub test_wrong_pass {
+    my $self = shift;
+}
+
+sub test_user_doesnt_exist {
+    my $self = shift;
+}
 
 1;
 
@@ -178,8 +190,19 @@ use BaseTest;
 use RestAuthUser;
 use base qw(BaseTest);
 
-sub test_ok {}
+sub test_ok {
+    my $self = shift;
+}
 
+sub test_wrong_password {
+    my $self = shift;
+}
+
+sub test_user_doesnt_exist {
+    my $self = shift;
+}
+
+sub test_too_short {}
 1;
 
 package UserRemove;
@@ -187,7 +210,13 @@ use BaseTest;
 use RestAuthUser;
 use base qw(BaseTest);
 
-sub test_ok {}
+sub test_ok {
+    my $self = shift;
+}
+
+sub test_user_doesnt_exist {
+    my $self = shift;
+}
 
 1;
 
