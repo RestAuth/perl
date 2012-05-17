@@ -139,7 +139,19 @@ use BaseTest;
 use RestAuthUser;
 use base qw(BaseTest);
 
-sub test_ok {};
+sub test_all {
+    my $self = shift;
+    
+    $self->assert_raises(RestAuthUserDoesNotExist, sub {
+        RestAuthUser->get($self->{conn}, 'username');
+    });
+    
+    my $created = RestAuthUser->create($self->{conn}, 'username', 'userpassword');
+    my $gotten = RestAuthUser->get($self->{conn}, 'username');
+    
+    $self->assert_equals($gotten->{_name}, 'username');
+    $self->assert_equals($created->{_name}, $gotten->{_name});
+};
 
 1;
 
