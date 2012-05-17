@@ -7,7 +7,8 @@ use base qw(BaseTest);
 
 sub test_no_users {
     my $self = shift;
-    my $users = RestAuthUser->get_all($self->{conn});
+    my @users = RestAuthUser->get_all($self->{conn});
+    $self->assert_equals(0, scalar(@users));
 }
 
 1;
