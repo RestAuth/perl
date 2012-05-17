@@ -225,7 +225,7 @@ sub test_user_doesnt_exist {
     my $self = shift;
     
     my $user = RestAuth::User->new($self->{conn}, 'username');
-    $self->assertRaises(RestAuth::Error::UserDoesNotExist, sub {
+    $self->assert_raises(RestAuth::Error::UserDoesNotExist, sub {
         $user->set_password('newpassword');
     });
 }
@@ -234,7 +234,7 @@ sub test_too_short {
     my $self = shift;
     
     my $user = RestAuth::User->create($self->{conn}, 'username', 'userpassword');
-    $self->assertRaises(RestAuth::Error::PreconditionFailed, sub {
+    $self->assert_raises(RestAuth::Error::PreconditionFailed, sub {
         $user->set_password('a');
     });
     
@@ -250,10 +250,23 @@ use base qw(BaseTest);
 
 sub test_ok {
     my $self = shift;
+    
+    my $user = RestAuth::User->create($self->{conn}, 'username');
+    $self->assert($user->exists());
+    
+    $user->remove();
+    
+    $self->assert(!$user->exists());
 }
 
 sub test_user_doesnt_exist {
     my $self = shift;
+    
+    my $user = RestAuth::User->new($self->{conn}, 'username');
+    $self->assert_raises(RestAuth::Error::UserDoesNotExist, sub {
+        $user->remove();
+    });
+    $self->assert(!$user->exists());
 }
 
 1;
