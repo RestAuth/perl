@@ -3,12 +3,35 @@ use BaseTest;
 use RestAuthUser;
 use base qw(BaseTest);
 
-#our $conn = new RestAuthConnection('http://[::1]:8000', 'example.com', 'example');
-
 sub test_no_users {
     my $self = shift;
     my @users = RestAuthUser->get_all($self->{conn});
     $self->assert_equals(0, scalar(@users));
+}
+
+sub test_one_user {
+    my $self = shift;
+    
+    # first create one user:
+    my $user = RestAuthUser->create($self->{conn}, 'username');
+    my @expected_users = ($user);
+    
+    my @users = RestAuthUser->get_all($self->{conn});
+    $self->assert_equals(1, scalar(@users));
+    $self->assert_equal_resources(\@users, \@expected_users);
+}
+
+sub test_two_users {
+    my $self = shift;
+    
+    # first create one user:
+    my $user1 = RestAuthUser->create($self->{conn}, 'username1');
+    my $user2 = RestAuthUser->create($self->{conn}, 'username2');
+    my @expected_users = ($user1, $user2);
+    
+    my @users = RestAuthUser->get_all($self->{conn});
+    $self->assert_equals(2, scalar(@users));
+    $self->assert_equal_resources(\@users, \@expected_users);
 }
 
 1;
