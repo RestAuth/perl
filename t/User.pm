@@ -186,14 +186,22 @@ use base qw(BaseTest);
 
 sub test_ok {
     my $self = shift;
+    my $user = RestAuth::User->create($self->{conn}, 'username', 'userpassword');
+    $self->assert($user->verify_password('userpassword'));
 }
 
 sub test_wrong_pass {
     my $self = shift;
+    
+    my $user = RestAuth::User->create($self->{conn}, 'username', 'userpassword');
+    $self->assert(!$user->verify_password('false'));
 }
 
 sub test_user_doesnt_exist {
     my $self = shift;
+    
+    my $user = RestAuth::User->new($self->{conn}, 'username');
+    $self->assert(!$user->verify_password('false'));
 }
 
 1;
