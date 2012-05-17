@@ -191,3 +191,11 @@ sub test_ok {}
 
 1;
 
+package BasicUserTests;
+use base qw(Test::Unit::TestSuite);
+
+sub include_tests {
+    qw(UserList UserCreate UserGet UserExists UserVerifyPassword UserSetPassword UserRemove)
+}
+1;
+
