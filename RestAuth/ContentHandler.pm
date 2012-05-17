@@ -1,4 +1,4 @@
-package RestAuthContentHandler;
+package RestAuth::ContentHandler;
 
 sub encode_array {
 }
@@ -16,10 +16,10 @@ sub mime_type {
 
 1;
 
-package RestAuthJsonContentHandler;
+package RestAuth::JsonContentHandler;
 use JSON;
 
-our @ISA = qw(RestAuthContentHandler);
+our @ISA = qw(RestAuth::ContentHandler);
 our $_mime_type = 'application/json';
 
 sub new {

@@ -1,9 +1,9 @@
-package RestAuthUser;
+package RestAuth::User;
 
-use RestAuthConnection;
-use RestAuthError;
+use RestAuth::Connection;
+use RestAuth::Error;
 
-our @ISA = qw(RestAuthResource);
+our @ISA = qw(RestAuth::Resource);
 our $prefix = '/users/';
 
 sub new {
@@ -20,11 +20,13 @@ sub new {
 sub get {
     my ($class, $conn, $name) = @_;
     
-    my $user = $class->new($conn, $name);
-    if ($user->exists()) {
-        return $user;
+    my $response = $conn->get("$prefix$name/");
+    if ($response->code == 204) {
+        return new RestAuth::User($conn, $name);
+    } elsif ($response->code == 404) {
+        throw RestAuth::Error::UserDoesNotExist($response);
     } else {
-        throw RestAuthUserDoesNotExist("User does not exist.");
+        throw RestAuth::Error::UnknownStatus($response);
     }
 }
 
@@ -36,7 +38,7 @@ sub get_all {
     my @usernames = $conn->{_content_handler}->decode($resp->content());
     
     foreach (@usernames) {
-        push(@users, RestAuthUser->new($conn, $_));
+        push(@users, RestAuth::User->new($conn, $_));
     }
 
     return @users;
@@ -51,13 +53,13 @@ sub create {
     
     my $response = $conn->post($prefix, \%body);
     if ($response->code == 201) {
-        return new RestAuthUser($conn, $name);
+        return new RestAuth::User($conn, $name);
     } elsif ($response->code == 409) {
-        throw RestAuthUserExists($response);
+        throw RestAuth::Error::UserExists($response);
     } elsif ($response->code == 412) {
-        throw RestAuthPreconditionFailed($response);
+        throw RestAuth::Error::PreconditionFailed($response);
     } else {
-        throw RestAuthUnknownStatus($response);
+        throw RestAuth::Error::UnknownStatus($response);
     }   
 }
 
@@ -69,7 +71,7 @@ sub exists {
     } elsif ($response->code == 404) {
         return 0;
     } else {
-        throw RestAuthUnknownStatus($response);
+        throw RestAuth::Error::UnknownStatus($response);
     }
 }
 
@@ -83,7 +85,7 @@ sub verify_password {
     } elsif ($response->code == 404) {
         return 0;
     } else {
-        throw RestAuthUnknownStatus($response);
+        throw RestAuth::Error::UnknownStatus($response);
     }
 }
 
@@ -99,11 +101,11 @@ sub set_password {
     if ($response->code == 204) {
         return 1;
     } elsif ($response->code == 404) {
-        throw RestAuthUserDoesNotExist($response);
+        throw RestAuth::Error::UserDoesNotExist($response);
     } elsif ($response->code == 412) {
-        throw RestAuthPreconditionFailed($response);
+        throw RestAuth::Error::PreconditionFailed($response);
     } else {
-        throw RestAuthUnknownStatus($response);
+        throw RestAuth::Error::UnknownStatus($response);
     } 
 }
 
@@ -114,9 +116,9 @@ sub remove {
     if ($response->code == 204) {
         return 1;
     } elsif ($response->code == 404) {
-        throw RestAuthUserDoesNotExist($response);
+        throw RestAuth::Error::UserDoesNotExist($response);
     } else {
-        throw RestAuthUnknownStatus($response);
+        throw RestAuth::Error::UnknownStatus($response);
     }
 }
 

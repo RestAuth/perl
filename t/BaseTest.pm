@@ -6,13 +6,13 @@ use base qw(Test::Unit::TestCase);
 use Scalar::Util qw(blessed);
 use List::Compare;
 
-use RestAuthConnection;
+use RestAuth::Connection;
 
 sub set_up {
     my $self = shift;
-    $self->{conn} = new RestAuthConnection('http://[::1]:8000', 'example.com', 'example');
+    $self->{conn} = new RestAuth::Connection('http://[::1]:8000', 'example.com', 'example');
     
-    my @users = RestAuthUser->get_all($self->{conn});
+    my @users = RestAuth::User->get_all($self->{conn});
     for my $user (@users) {
         $user->remove();
     }

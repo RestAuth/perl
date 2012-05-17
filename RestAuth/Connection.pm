@@ -1,19 +1,19 @@
-# This file is part of Net::RestAuth.
+# This file is part of RestAuth.
 #
-# Net::RestAuth is free software: you can redistribute it and/or modify
+# RestAuth is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# Net::RestAuth is distributed in the hope that it will be useful,
+# RestAuth is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with Net::RestAuth.  If not, see <http://www.gnu.org/licenses/>.
+# along with estAuth.  If not, see <http://www.gnu.org/licenses/>.
 
-package RestAuthConnection;
+package RestAuth::Connection;
 use strict;
 use warnings;
 
@@ -21,8 +21,8 @@ use WWW::Curl::Share;
 use HTTP::Response;
 use MIME::Base64;
 
-use RestAuthError;
-use RestAuthContentHandler;
+use RestAuth::Error;
+use RestAuth::ContentHandler;
 
 sub new {
     my $class = shift;
@@ -47,7 +47,7 @@ sub set_content_handler {
     $self->{_content_handler} = shift;
     
     if (! defined $self->{_content_handler}) {
-        $self->{_content_handler} = new RestAuthJsonContentHandler();
+        $self->{_content_handler} = new RestAuth::JsonContentHandler();
     }
 }
 
@@ -97,18 +97,18 @@ sub request {
     if ($retcode == 0) {
         my $response = HTTP::Response->parse($response_body);
         if ($response->code == 500) {
-            throw RestAuthInternalServerError($response);
+            throw RestAuth::Error::InternalServerError($response);
         } elsif ($response->code == 401) {
-            throw RestAuthUnauthorized($response);
+            throw RestAuth::Error::Unauthorized($response);
         } elsif ($response->code == 403) {
-            throw RestAuthForbidden($response);
+            throw RestAuth::Error::Forbidden($response);
         } elsif ($response->code == 406) {
-            throw RestAuthNotAcceptable($response);
+            throw RestAuth::Error::NotAcceptable($response);
         } else {
             return $response;
         }
     } else {
-        throw RestAuthConnectionError($curl);
+        throw RestAuth::Error::ConnectionError($curl);
     }
 }
 
@@ -122,9 +122,9 @@ sub post {
     my $response = $self->request('POST', $path, $body);
     
     if ($response->code == 400) {
-        throw RestAuthBadRequest($response);
+        throw RestAuth::Error::BadRequest($response);
     } elsif ($response->code == 415) {
-        throw RestAuthUnsupportedMediaType($response);
+        throw RestAuth::Error::UnsupportedMediaType($response);
     } else {
         return $response;
     }
@@ -135,9 +135,9 @@ sub put {
     my $response = $self->request('PUT', $path, $body);
     
     if ($response->code == 400) {
-        throw RestAuthBadRequest($response);
+        throw RestAuth::Error::BadRequest($response);
     } elsif ($response->code == 415) {
-        throw RestAuthUnsupportedMediaType($response);
+        throw RestAuth::Error::UnsupportedMediaType($response);
     } else {
         return $response;
     }
@@ -149,10 +149,7 @@ sub delete {
 }
 1;
 
-package RestAuthContentHandler;
-1;
-
-package RestAuthResource;
+package RestAuth::Resource;
 
 sub new {
     my $class = shift;
