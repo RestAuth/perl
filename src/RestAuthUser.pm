@@ -53,7 +53,7 @@ sub create {
     if ($response->code == 201) {
         return new RestAuthUser($conn, $name);
     } elsif ($response->code == 409) {
-        throw RestAuthConflict($response);
+        throw RestAuthUserExists($response);
     } elsif ($response->code == 412) {
         throw RestAuthPreconditionFailed($response);
     } else {
