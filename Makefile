@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with perl-RestAuth.  If not, see <http://www.gnu.org/licenses/>.
 
-PERL5LIB:= t:.:${PERL5LIB}
+PERL5LIB := .
 
 test:
-	PERL5LIB=${PERL5LIB} /usr/share/perl5/Test/TestRunner.pl AllTests
+	PERL5LIB=${PERL5LIB} prove t
