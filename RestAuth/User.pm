@@ -14,6 +14,8 @@
 # along with perl-RestAuth.  If not, see <http://www.gnu.org/licenses/>.
 
 package RestAuth::User;
+use strict;
+use warnings;
 
 use RestAuth::Connection;
 use RestAuth::Error;
@@ -50,7 +52,7 @@ sub get_all {
 
     my $resp = $conn->get($prefix);
     my @users = ();
-    my @usernames = $conn->{_content_handler}->decode($resp->content());
+    my @usernames = $conn->decode_list($resp->content());
     
     foreach (@usernames) {
         push(@users, RestAuth::User->new($conn, $_));
@@ -139,10 +141,33 @@ sub remove {
 
 sub get_properties {
     my $self = shift;
+    
+    my $resp = $self->request_get($self->{_name} . "/props/");
+    if ($resp->code == 200) {
+        my %props = $self->{_conn}->decode_dict($resp->content());
+        return %props;
+    } elsif ($resp->code == 404) {
+        throw RestAuth::Error::UserDoesNotExist($resp);
+    } else {
+        throw RestAuth::Error::UnknownStatus($resp);
+    }
 }
 
 sub create_property {
-    my $self = shift;
+    my ($self, $conn, $name, $value) = @_;
+    
+    my %body = ('prop' => $name, 'value' => $value);
+    
+    my $response = $conn->post($prefix, \%body);
+    if ($response->code == 201) {
+        return 1;
+    } elsif ($response->code == 404) {
+        throw RestAuth::Error::UserDoesNotExist($response);
+    } elsif ($response->code == 409) {
+        throw RestAuth::Error::PropertyExists($response);
+    } else {
+        throw RestAuth::Error::UnknownStatus($response);
+    }   
 }
 
 sub get_property {

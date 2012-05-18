@@ -147,6 +147,16 @@ sub delete {
     my ($self, $path) = @_;
     return $self->request('DELETE', $path);
 }
+
+sub decode_list {
+    my ($self, $raw) = @_;
+    return $self->{_content_handler}->decode_list($raw);
+}
+sub decode_dict {
+    my ($self, $raw) = @_;
+    return $self->{_content_handler}->decode_dict($raw);
+}
+
 1;
 
 package RestAuth::Resource;

@@ -53,9 +53,14 @@ sub encode_array {
     return encode_json(\%{$data});
 }
 
-sub decode {
+sub decode_list {
     my ($self, $raw) = @_;
     return @{decode_json($raw)};
+}
+
+sub decode_dict {
+    my ($self, $raw) = @_;
+    return %{decode_json($raw)};
 }
 
 1;
