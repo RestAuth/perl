@@ -142,7 +142,7 @@ sub remove {
 sub get_properties {
     my $self = shift;
     
-    my $resp = $self->request_get($self->{_name} . "/props/");
+    my $resp = $self->request_get($self->{_name} . '/props/');
     if ($resp->code == 200) {
         my %props = $self->{_conn}->decode_dict($resp->content());
         return %props;
@@ -154,24 +154,34 @@ sub get_properties {
 }
 
 sub create_property {
-    my ($self, $conn, $name, $value) = @_;
+    my ($self, $name, $value) = @_;
     
     my %body = ('prop' => $name, 'value' => $value);
     
-    my $response = $conn->post($prefix, \%body);
-    if ($response->code == 201) {
+    my $resp = $self->request_post($self->{_name} . '/props/', \%body);
+    if ($resp->code == 201) {
         return 1;
-    } elsif ($response->code == 404) {
-        throw RestAuth::Error::UserDoesNotExist($response);
-    } elsif ($response->code == 409) {
-        throw RestAuth::Error::PropertyExists($response);
+    } elsif ($resp->code == 404) {
+        throw RestAuth::Error::UserDoesNotExist($resp);
+    } elsif ($resp->code == 409) {
+        throw RestAuth::Error::PropertyExists($resp);
     } else {
-        throw RestAuth::Error::UnknownStatus($response);
+        throw RestAuth::Error::UnknownStatus($resp);
     }   
 }
 
 sub get_property {
-    my $self = shift;
+    my ($self, $name) = @_;
+    
+    my $resp = $self->request_get($self->{_name} . "/props/$name/");
+    if ($resp->code == 200) {
+        my @raw = $self->{_conn}->decode_list($resp->content());
+        return $raw[0];
+    } elsif ($resp->code == 404) {
+        #TODO
+    } else {
+        throw RestAuth::Error::UnknownStatus($resp);
+    } 
 }
 
 sub set_property {
