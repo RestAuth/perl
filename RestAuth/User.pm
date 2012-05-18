@@ -178,7 +178,13 @@ sub get_property {
         my @raw = $self->{_conn}->decode_list($resp->content());
         return $raw[0];
     } elsif ($resp->code == 404) {
-        #TODO
+        if ($resp->header('Resource-Type') == 'user') {
+            throw RestAuth::Error::UserDoesNotExist($resp);
+        } elsif ($resp->header('Resource-Type') == 'property') {
+            throw RestAuth::Error::PropertyDoesNotExist($resp);
+        } else {
+            throw RestAuth::Error::UnknownStatus($resp);
+        }
     } else {
         throw RestAuth::Error::UnknownStatus($resp);
     } 
