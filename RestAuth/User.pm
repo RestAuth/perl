@@ -23,6 +23,9 @@ use RestAuth::Error;
 our @ISA = qw(RestAuth::Resource);
 our $prefix = '/users/';
 
+=item new
+Constructor.
+=cut
 sub new {
     my $class = shift;
     my $self = {
@@ -34,6 +37,9 @@ sub new {
     return $self;
 }
 
+=item get
+get static function
+=cut
 sub get {
     my ($class, $conn, $name) = @_;
     
@@ -47,6 +53,9 @@ sub get {
     }
 }
 
+=item get_all
+whatever.
+=cut
 sub get_all {
     my ($class, $conn) = @_;
 

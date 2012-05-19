@@ -24,6 +24,8 @@ use MIME::Base64;
 use RestAuth::Error;
 use RestAuth::ContentHandler;
 
+=item new
+=cut
 sub new {
     my $class = shift;
     my $self = {
