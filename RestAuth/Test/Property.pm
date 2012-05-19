@@ -55,14 +55,16 @@ sub test_user_doesnt_exist : Test(2) {
     my $user = RestAuth::User->new($self->{conn}, 'wrongname');
     isa_ok($user, 'RestAuth::User');
     
-    throws_ok { $user->create_property('foo', 'bar'); }
-        'RestAuth::Error::UserDoesNotExist', 'Try to create property'
+    throws_ok { $user->get_properties(); }
+        'RestAuth::Error::UserDoesNotExist', 'Try getting properties';
 }
 1;
 
 package RestAuth::Test::Property::Create;
 use base qw(RestAuth::Test::PropertyBase);
+
 use Test::More;
+use Test::Exception;
 
 sub test_create : Test(2) {
     my $self = shift;
@@ -71,9 +73,23 @@ sub test_create : Test(2) {
     is('mati@restauth.net', $self->{user}->get_property('email'), 'Retrieve value again');
 }
 
-sub test_create_conflict : Test {}
+sub test_create_conflict : Test(3) {
+    my $self = shift;
+    
+    ok($self->{user}->create_property('email', 'mati@restauth.net'), 'Set property');
+    ok($self->{user}->create_property('email', 'mati@fsinf.at'), 'Set property');
+    is('mati@fsinf.at', $self->{user}->get_property('email'), 'Retrieve value again');
+}
 
-sub test_create_user_doesnt_exist : Test {}
+sub test_create_user_doesnt_exist : Test {
+    my $self = shift;
+    
+    my $user = RestAuth::User->new($self->{conn}, 'wrongname');
+    isa_ok($user, 'RestAuth::User');
+    
+    throws_ok { $user->create_property('foo', 'bar'); }
+        'RestAuth::Error::UserDoesNotExist', 'Try to create property';
+}
 
 1;
 
