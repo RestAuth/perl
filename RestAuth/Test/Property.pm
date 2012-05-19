@@ -98,17 +98,30 @@ package RestAuth::Test::Property::Get;
 use base qw(RestAuth::Test::PropertyBase);
 
 use Test::More;
+use Test::Exception;
 
-sub test_get : Test {
+sub test_get : Test(2) {
     my $self = shift;
+    
+    ok($self->{user}->create_property('email', 'mati@restauth.net'), 'Create property');
+    is('mati@restauth.net', $self->{user}->get_property('email'), 'Retrieve value again');
 }
 
-sub test_user_doesnt_exist : Test {
+sub test_user_doesnt_exist : Test(2) {
     my $self = shift;
+    
+    my $user = RestAuth::User->new($self->{conn}, 'wrongname');
+    isa_ok($user, 'RestAuth::User');
+    
+    throws_ok { $user->get_property('foo', 'bar'); }
+        'RestAuth::Error::UserDoesNotExist', 'Try to get property';
 }
 
-sub test_prop_doesnt_exist : Test {
+sub test_prop_doesnt_exist : Test(1) {
     my $self = shift;
+    
+    throws_ok { $self->{user}->get_property('email'); }
+        'RestAuth::Error::PropertyDoesNotExist', 'Retrieve not-existing value';
 }
 
 1;
