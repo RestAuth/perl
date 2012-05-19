@@ -4,3 +4,14 @@ This library is still somewhat in the early stages of development.
 2. Only some functions are implemented yet.
 3. No API documentation exists yet.
 4. No further documentation exists yet.
+
+== current implementation status ==
+Currently all user management functions and property management functions
+are implemented and tested. Group functions are NOT implemented. 
+
+This library should behave almost identical to the RestAuth client
+implementations in Python[1], PHP[2] or Java[3].
+
+[1] https://python.restauth.net
+[2] https://php.restauth.net
+[3] https://redmine.fsinf.at/projects/restauth-java
