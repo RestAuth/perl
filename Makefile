@@ -17,3 +17,6 @@ PERL5LIB := .
 
 test:
 	PERL5LIB=${PERL5LIB} prove t
+
+doc-coverage:
+	PERL5LIB=${PERL5LIB} perl bin/doc-coverage.pl
