@@ -63,4 +63,9 @@ sub decode_dict {
     return %{decode_json($raw)};
 }
 
+sub decode_str {
+    my ($self, $raw) = @_;
+    return @{decode_json($raw)}[0];
+}
+
 1;

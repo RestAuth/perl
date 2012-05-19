@@ -156,6 +156,10 @@ sub decode_dict {
     my ($self, $raw) = @_;
     return $self->{_content_handler}->decode_dict($raw);
 }
+sub decode_str {
+    my ($self, $raw) = @_;
+    return $self->{_content_handler}->decode_str($raw);
+}
 
 1;
 
