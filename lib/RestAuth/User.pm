@@ -18,6 +18,7 @@ use strict;
 use warnings;
 
 use RestAuth::Connection;
+use RestAuth::Resource;
 use RestAuth::Error;
 
 our @ISA = qw(RestAuth::Resource);

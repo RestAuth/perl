@@ -4,6 +4,7 @@ COPYING
 COPYRIGHT
 lib/RestAuth.pm
 lib/RestAuth/Connection.pm
+lib/RestAuth/Resource.pm
 lib/RestAuth/ConnectionHandler.pm
 lib/RestAuth/Error.pm
 lib/RestAuth/User.pm
