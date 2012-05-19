@@ -178,9 +178,9 @@ sub get_property {
         my @raw = $self->{_conn}->decode_list($resp->content());
         return $raw[0];
     } elsif ($resp->code == 404) {
-        if ($resp->header('Resource-Type') == 'user') {
+        if ($resp->header('Resource-Type') eq 'user') {
             throw RestAuth::Error::UserDoesNotExist($resp);
-        } elsif ($resp->header('Resource-Type') == 'property') {
+        } elsif ($resp->header('Resource-Type') eq 'property') {
             throw RestAuth::Error::PropertyDoesNotExist($resp);
         } else {
             throw RestAuth::Error::UnknownStatus($resp);
@@ -213,9 +213,9 @@ sub remove_property {
     if ($resp->code == 204) {
         return 1;
     } elsif ($resp->code == 404) {
-        if ($resp->header('Resource-Type') == 'user') {
+        if ($resp->header('Resource-Type') eq 'user') {
             throw RestAuth::Error::UserDoesNotExist($resp);
-        } elsif ($resp->header('Resource-Type') == 'property') {
+        } elsif ($resp->header('Resource-Type') eq 'property') {
             throw RestAuth::Error::PropertyDoesNotExist($resp);
         } else {
             throw RestAuth::Error::UnknownStatus($resp);
