@@ -128,18 +128,35 @@ sub test_prop_doesnt_exist : Test(1) {
 
 package RestAuth::Test::Property::Set;
 use base qw(RestAuth::Test::PropertyBase);
+
 use Test::More;
+use Test::Exception;
 
-sub test_create : Test {
+sub test_create : Test(2) {
     my $self = shift;
+    
+    is($self->{user}->set_property('email', 'mati@restauth.net'), undef, 'Create property');
+    is($self->{user}->get_property('email'), 'mati@restauth.net', 'Retrieve value again');
 }
 
-sub test_update : Test {
+sub test_update : Test(4) {
     my $self = shift;
+    
+    is($self->{user}->create_property('email', 'mati@restauth.net'), 1, 'Create property');
+    is($self->{user}->get_property('email', 'mati@restauth.net'), 'mati@restauth.net', 'Retrieve value again');
+    
+    is($self->{user}->set_property('email', 'mati@fsinf.at'), 'mati@restauth.net', 'Set value again');
+    is($self->{user}->get_property('email'),'mati@fsinf.at', 'Retrieve value again');
 }
 
-sub test_user_doesnt_exist : Test {
+sub test_user_doesnt_exist : Test(2) {
     my $self = shift;
+    
+    my $user = RestAuth::User->new($self->{conn}, 'wrongname');
+    isa_ok($user, 'RestAuth::User');
+    
+    throws_ok { $user->set_property('email', 'mati@restauth.net'); }
+        'RestAuth::Error::UserDoesNotExist', 'Try to set property';
 }
 
 1;
