@@ -191,11 +191,38 @@ sub get_property {
 }
 
 sub set_property {
-    my $self = shift;
+    my ($self, $key, $value) = @_;
+    
+    my %body = ('value' => $value);
+    my $resp = $self->request_put("$self->{_name}/props/$key/", \%body);
+    if ($resp->code == 200) {
+        return $self->{_conn}->decode_str($resp->content());
+    } elsif ($resp->code == 201) {
+        return;
+    } elsif ($resp->code == 404) {
+        throw RestAuth::Error::UserDoesNotExist($resp);
+    } else {
+        throw RestAuth::Error::UnknownStatus($resp);
+    }
 }
 
 sub remove_property {
-    my $self = shift;
+    my ($self, $key) = @_;
+    
+    my $resp = $self->request_delete("$self->{_name}/props/$key/");
+    if ($resp->code == 204) {
+        return 1;
+    } elsif ($resp->code == 404) {
+        if ($resp->header('Resource-Type') == 'user') {
+            throw RestAuth::Error::UserDoesNotExist($resp);
+        } elsif ($resp->header('Resource-Type') == 'property') {
+            throw RestAuth::Error::PropertyDoesNotExist($resp);
+        } else {
+            throw RestAuth::Error::UnknownStatus($resp);
+        }
+    } else {
+        throw RestAuth::Error::UnknownStatus($resp);    
+    } 
 }
 
 1;
