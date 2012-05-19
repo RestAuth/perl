@@ -23,7 +23,6 @@ use Test::More;
 use Test::Deep;
 
 use RestAuth::User;
-use RestAuth::Error;
 
 sub test_no_users : Test(1) {
     my $self = shift;

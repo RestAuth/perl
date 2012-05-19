@@ -19,7 +19,12 @@ use warnings;
 
 use RestAuth::Connection;
 use RestAuth::Resource;
-use RestAuth::Error;
+use RestAuth::Error::PreconditionFailed;
+use RestAuth::Error::PropertyExists;
+use RestAuth::Error::PropertyDoesNotExist;
+use RestAuth::Error::UnknownStatus;
+use RestAuth::Error::UserDoesNotExist;
+use RestAuth::Error::UserExists;
 
 our @ISA = qw(RestAuth::Resource);
 our $prefix = '/users/';

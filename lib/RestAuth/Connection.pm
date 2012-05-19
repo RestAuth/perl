@@ -27,7 +27,7 @@ use WWW::Curl::Share;
 use HTTP::Response;
 use MIME::Base64;
 
-use RestAuth::Error;
+use RestAuth::Error::InternalServerError;
 use RestAuth::ContentHandler;
 
 =head1 SUBROUTINES/METHODS
