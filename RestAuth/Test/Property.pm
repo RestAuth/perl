@@ -16,6 +16,8 @@
 package RestAuth::Test::Property::GetAll;
 use RestAuth::Test::Base;
 use base qw(RestAuth::Test::PropertyBase);
+use strict;
+use warnings;
 
 use Test::More;
 use Test::Exception;
@@ -62,6 +64,8 @@ sub test_user_doesnt_exist : Test(2) {
 
 package RestAuth::Test::Property::Create;
 use base qw(RestAuth::Test::PropertyBase);
+use strict;
+use warnings;
 
 use Test::More;
 use Test::Exception;
@@ -96,6 +100,8 @@ sub test_create_user_doesnt_exist : Test(2) {
 
 package RestAuth::Test::Property::Get;
 use base qw(RestAuth::Test::PropertyBase);
+use strict;
+use warnings;
 
 use Test::More;
 use Test::Exception;
@@ -128,6 +134,8 @@ sub test_prop_doesnt_exist : Test(1) {
 
 package RestAuth::Test::Property::Set;
 use base qw(RestAuth::Test::PropertyBase);
+use strict;
+use warnings;
 
 use Test::More;
 use Test::Exception;
@@ -161,20 +169,39 @@ sub test_user_doesnt_exist : Test(2) {
 
 1;
 
-package RestAuth::Test::Property::Delete;
+package RestAuth::Test::Property::Remove;
 use base qw(RestAuth::Test::PropertyBase);
+use strict;
+use warnings;
+
 use Test::More;
+use Test::Exception;
 
-sub test_delete : Test {
+sub test_remove : Test(3) {
     my $self = shift;
+    
+    is($self->{user}->create_property('email', 'mati@restauth.net'), 1, 'Create property');
+    is($self->{user}->remove_property('email'), 1, 'Delete property');
+    
+    throws_ok { $self->{user}->get_property('email'); }
+        'RestAuth::Error::PropertyDoesNotExist', 'Try to retrieve it again';
 }
 
-sub test_user_doesnt_exist : Test {
+sub test_user_doesnt_exist : Test(2) {
     my $self = shift;
+    
+    my $user = RestAuth::User->new($self->{conn}, 'wrongname');
+    isa_ok($user, 'RestAuth::User');
+    
+    throws_ok { $user->remove_property('email'); }
+        'RestAuth::Error::UserDoesNotExist', 'Try to delete inexistent property';
 }
 
-sub test_prop_doesnt_exist : Test {
+sub test_prop_doesnt_exist : Test(1) {
     my $self = shift;
+    
+    throws_ok { $self->{user}->remove_property('email'); }
+        'RestAuth::Error::PropertyDoesNotExist', 'Try to delete inexistent property';
 }
 
 1;
