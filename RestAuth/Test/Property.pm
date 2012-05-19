@@ -77,11 +77,12 @@ sub test_create_conflict : Test(3) {
     my $self = shift;
     
     ok($self->{user}->create_property('email', 'mati@restauth.net'), 'Set property');
-    ok($self->{user}->create_property('email', 'mati@fsinf.at'), 'Set property');
-    is('mati@fsinf.at', $self->{user}->get_property('email'), 'Retrieve value again');
+    throws_ok { $self->{user}->create_property('email', 'mati@fsinf.at') }
+        'RestAuth::Error::PropertyExists', 'Set property';
+    is('mati@restauth.net', $self->{user}->get_property('email'), 'Retrieve value again');
 }
 
-sub test_create_user_doesnt_exist : Test {
+sub test_create_user_doesnt_exist : Test(2) {
     my $self = shift;
     
     my $user = RestAuth::User->new($self->{conn}, 'wrongname');
@@ -95,6 +96,7 @@ sub test_create_user_doesnt_exist : Test {
 
 package RestAuth::Test::Property::Get;
 use base qw(RestAuth::Test::PropertyBase);
+
 use Test::More;
 
 sub test_get : Test {}
