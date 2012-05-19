@@ -99,9 +99,17 @@ use base qw(RestAuth::Test::PropertyBase);
 
 use Test::More;
 
-sub test_get : Test {}
-sub test_user_doesnt_exist : Test {}
-sub test_prop_doesnt_exist : Test {}
+sub test_get : Test {
+    my $self = shift;
+}
+
+sub test_user_doesnt_exist : Test {
+    my $self = shift;
+}
+
+sub test_prop_doesnt_exist : Test {
+    my $self = shift;
+}
 
 1;
 
@@ -109,9 +117,17 @@ package RestAuth::Test::Property::Set;
 use base qw(RestAuth::Test::PropertyBase);
 use Test::More;
 
-sub test_create : Test {}
-sub test_update : Test {}
-sub test_user_doesnt_exist : Test {}
+sub test_create : Test {
+    my $self = shift;
+}
+
+sub test_update : Test {
+    my $self = shift;
+}
+
+sub test_user_doesnt_exist : Test {
+    my $self = shift;
+}
 
 1;
 
@@ -119,7 +135,16 @@ package RestAuth::Test::Property::Delete;
 use base qw(RestAuth::Test::PropertyBase);
 use Test::More;
 
-sub test_delete : Test {}
-sub test_user_doesnt_exist : Test {}
+sub test_delete : Test {
+    my $self = shift;
+}
+
+sub test_user_doesnt_exist : Test {
+    my $self = shift;
+}
+
+sub test_prop_doesnt_exist : Test {
+    my $self = shift;
+}
 
 1;
