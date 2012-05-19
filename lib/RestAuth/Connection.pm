@@ -17,6 +17,12 @@ package RestAuth::Connection;
 use strict;
 use warnings;
 
+=head1 NAME
+
+RestAuth::Connection - this is a test!
+
+=cut
+
 use WWW::Curl::Share;
 use HTTP::Response;
 use MIME::Base64;
@@ -24,7 +30,12 @@ use MIME::Base64;
 use RestAuth::Error;
 use RestAuth::ContentHandler;
 
-=item new
+=head1 SUBROUTINES/METHODS
+
+=head2 new($url)
+
+foo
+
 =cut
 sub new {
     my $class = shift;
@@ -39,6 +50,11 @@ sub new {
     return $self;
 }
 
+=head2 set_credentials($username, $password)
+
+bar
+
+=cut
 sub set_credentials {
     my ($self, $user, $pass) = @_;
     $self->{_auth_header} = "Basic " . encode_base64("$user:$pass");
@@ -166,6 +182,13 @@ sub decode_str {
 1;
 
 package RestAuth::Resource;
+
+=head1 NAME
+
+RestAuth::Resource - second test
+
+=cut
+
 
 sub new {
     my $class = shift;

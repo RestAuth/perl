@@ -1,0 +1,21 @@
+Changes
+AUTHORS
+COPYING
+COPYRIGHT
+lib/RestAuth.pm
+lib/RestAuth/Connection.pm
+lib/RestAuth/ConnectionHandler.pm
+lib/RestAuth/Error.pm
+lib/RestAuth/User.pm
+lib/RestAuth/Test/Base.pm
+lib/RestAuth/Test/Property.pm
+lib/RestAuth/Test/User.pm
+Makefile.PL
+MANIFEST			This list of files
+README
+t/00-load.t
+t/manifest.t
+t/pod-coverage.t
+t/pod.t
+t/user.t
+t/property.t

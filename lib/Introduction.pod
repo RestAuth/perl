@@ -1,0 +1,7 @@
+=head1 NAME
+
+Introduction - An introduction to using the RestAuth Perl library.
+
+=head1 VERSION
+
+Version 0.5.1

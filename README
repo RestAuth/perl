@@ -1,17 +1,55 @@
-This library is still somewhat in the early stages of development.
+RestAuth
 
-1. No homepage exists yet.
-2. Only some functions are implemented yet.
-3. No API documentation exists yet.
-4. No further documentation exists yet.
+The README is used to introduce the module and provide instructions on
+how to install the module, any machine dependencies it may have (for
+example C compilers and installed libraries) and any other information
+that should be provided before the module is installed.
 
-== current implementation status ==
-Currently all user management functions and property management functions
-are implemented and tested. Group functions are NOT implemented. 
+A README file is required for CPAN modules since CPAN extracts the README
+file from a module distribution so that people browsing the archive
+can use it to get an idea of the module's uses. It is usually a good idea
+to provide version information here so that people can decide whether
+fixes for the module are worth downloading.
 
-This library should behave almost identical to the RestAuth client
-implementations in Python[1], PHP[2] or Java[3].
 
-[1] https://python.restauth.net
-[2] https://php.restauth.net
-[3] https://redmine.fsinf.at/projects/restauth-java
+INSTALLATION
+
+To install this module, run the following commands:
+
+	perl Makefile.PL
+	make
+	make test
+	make install
+
+SUPPORT AND DOCUMENTATION
+
+After installing, you can find documentation for this module with the
+perldoc command.
+
+    perldoc RestAuth
+
+You can also look for information at:
+
+    RT, CPAN's request tracker (report bugs here)
+        http://rt.cpan.org/NoAuth/Bugs.html?Dist=RestAuth
+
+    AnnoCPAN, Annotated CPAN documentation
+        http://annocpan.org/dist/RestAuth
+
+    CPAN Ratings
+        http://cpanratings.perl.org/d/RestAuth
+
+    Search CPAN
+        http://search.cpan.org/dist/RestAuth/
+
+
+LICENSE AND COPYRIGHT
+
+Copyright (C) 2012 Mathias Ertl
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See http://dev.perl.org/licenses/ for more information.
+
