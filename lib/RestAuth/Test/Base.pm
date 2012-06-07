@@ -48,7 +48,6 @@ Run at the start of every test.
 =cut
 
 sub make_fixture : Test(setup) {
-    print "\n---\n---\nMAKE FIXTURE\n---\n---\n\n";
     my $self = shift;
     $self->{conn} = new RestAuth::Connection('http://[::1]:8000', 'example.com', 'example');
     
