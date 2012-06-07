@@ -27,6 +27,11 @@ sub resources_ok {
     }
 }
 
+=head1 RestAuth::Test::Base
+
+Baseclass for all testcases
+
+=cut
 package RestAuth::Test::Base;
 use strict;
 use warnings;
@@ -36,7 +41,14 @@ use base qw(Test::Class);
 use RestAuth::Connection;
 use RestAuth::User;
 
+=head1 make_fixture
+
+Run at the start of every test.
+
+=cut
+
 sub make_fixture : Test(setup) {
+    print "\n---\n---\nMAKE FIXTURE\n---\n---\n\n";
     my $self = shift;
     $self->{conn} = new RestAuth::Connection('http://[::1]:8000', 'example.com', 'example');
     

@@ -13,6 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with perl-RestAuth.  If not, see <http://www.gnu.org/licenses/>.
 
+=head3 RestAuth::Test::Property::GetAll
+Property-related tests.
+=cut
 package RestAuth::Test::Property::GetAll;
 use RestAuth::Test::Base;
 use base qw(RestAuth::Test::PropertyBase);
@@ -143,7 +146,7 @@ use Test::Exception;
 sub test_create : Test(2) {
     my $self = shift;
     
-    is($self->{user}->set_property('email', 'mati@restauth.net'), undef, 'Create property');
+    is($self->{user}->set_property('email', 'mati@restauth.net'), 1, 'Create property');
     is($self->{user}->get_property('email'), 'mati@restauth.net', 'Retrieve value again');
 }
 

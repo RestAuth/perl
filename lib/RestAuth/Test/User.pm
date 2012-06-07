@@ -13,6 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with perl-RestAuth.  If not, see <http://www.gnu.org/licenses/>.
 
+=head3 RestAuth::Test::User::List
+Test listing users.
+=cut
 package RestAuth::Test::User::List;
 use strict;
 use warnings;
