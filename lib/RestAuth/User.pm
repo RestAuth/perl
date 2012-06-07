@@ -13,6 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with perl-RestAuth.  If not, see <http://www.gnu.org/licenses/>.
 
+=head1 RestAuth::User
+
+A user on the RestAuth service.
+
+=cut
 package RestAuth::User;
 use strict;
 use warnings;
@@ -29,8 +34,10 @@ use RestAuth::Error::UserExists;
 our @ISA = qw(RestAuth::Resource);
 our $prefix = '/users/';
 
-=item new
+=head2 new
+
 Constructor.
+
 =cut
 sub new {
     my $class = shift;
@@ -43,8 +50,45 @@ sub new {
     return $self;
 }
 
-=item get
-get static function
+=head2 get($conn, $username)
+
+Factory method for getting a user from the RestAuth service. An instance
+returned by this method is guaranteed to exist.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<conn> - L<RestAuth::Connection> - A connection to a RestAuth service.
+
+=item *
+
+B<username> - string - The username of the user.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+L<RestAuth::User> - A user guaranteed to exist in the RestAuth service
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
 =cut
 sub get {
     my ($class, $conn, $name) = @_;
@@ -59,8 +103,40 @@ sub get {
     }
 }
 
-=item get_all
-whatever.
+=head2 get_all($conn)
+
+Get all users that exist in a RestAuth Service
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<conn> - L<RestAuth::Connection> - A connection to a RestAuth service.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+Array of L<users|RestAuth::User> - An array of users known to exist.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
 =cut
 sub get_all {
     my ($class, $conn) = @_;
@@ -76,6 +152,53 @@ sub get_all {
     return @users;
 }
 
+=head2 create($conn, $username, $password=undef, \%properties=undef)
+
+Create a new user in the RestAuth service.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<conn> - L<RestAuth::Connection> - A connection to a RestAuth service.
+
+=item *
+
+B<username> - string - The username of the user.
+
+=item *
+
+B<password> (optional) - string - The password of the new user.
+
+=item *
+
+B<properties> (optional) - Hash of intial properties
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+L<RestAuth::User> - A user guaranteed to exist in the RestAuth service.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub create {
     my ($class, $conn, $name, $password, $properties) = @_;
     
@@ -95,6 +218,31 @@ sub create {
     }   
 }
 
+=head2 exists()
+
+Verify that a user exists in a RestAuth service.
+
+RETURNS:
+
+=over
+
+=item *
+
+B<boolean> - 1 if the user exists, 0 otherwise.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub exists {
     my $self = shift;
     my $response = $self->request_get("$self->{_name}/");
@@ -107,6 +255,41 @@ sub exists {
     }
 }
 
+=head2 verify_password($password)
+
+Verify a users password.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<password> - string - The password to verify.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+B<boolean> - 1 if the password is correct, 0 otherwise.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub verify_password {
     my ($self, $password) = @_;
     
@@ -121,6 +304,41 @@ sub verify_password {
     }
 }
 
+=head2 set_password($password)
+
+Set a new password.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<password> - string - The new password to set.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+B<boolean> - Always returns 1.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub set_password {
     my ($self, $password) = @_;
     
@@ -141,6 +359,31 @@ sub set_password {
     } 
 }
 
+=head2 remove()
+
+Remove a user from RestAuth.
+
+RETURNS:
+
+=over
+
+=item *
+
+B<boolean> - Always returns 1.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub remove {
     my $self = shift;
     
@@ -154,6 +397,30 @@ sub remove {
     }
 }
 
+=head2 get_properties()
+
+RETURNS:
+
+=over
+
+=item *
+
+B<Hash> - A Hash representing the properties. The keys represent the
+properties while the value represent their respective value.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub get_properties {
     my $self = shift;
     
@@ -168,6 +435,46 @@ sub get_properties {
     }
 }
 
+=head2 create_property($name, $value)
+
+Create a new property. It is an error if the given property already
+exists.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<name> - string - The name of the new property.
+
+=item *
+
+B<value> - string - The value of the new property.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+B<boolean> - Always returns 1.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub create_property {
     my ($self, $name, $value) = @_;
     
@@ -185,6 +492,41 @@ sub create_property {
     }   
 }
 
+=head2 get_property($name)
+
+Get the value of the given property.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<name> - string - The name of the property to get.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+B<string> - The value of the property.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub get_property {
     my ($self, $name) = @_;
     
@@ -205,6 +547,46 @@ sub get_property {
     } 
 }
 
+=head2 set_property($name, $value)
+
+Set a new value for a property. If the value does not exist, it is created.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<name> - string - The name of value to set.
+
+=item *
+
+B<value> - string - The new value.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+B<string> or B<boolean> - 1 if the property was created or the old value
+if an existing property was overwritten.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub set_property {
     my ($self, $key, $value) = @_;
     
@@ -213,7 +595,7 @@ sub set_property {
     if ($resp->code == 200) {
         return $self->{_conn}->decode_str($resp->content());
     } elsif ($resp->code == 201) {
-        return;
+        return 1;
     } elsif ($resp->code == 404) {
         throw RestAuth::Error::UserDoesNotExist($resp);
     } else {
@@ -221,6 +603,41 @@ sub set_property {
     }
 }
 
+=head2 remove_property($name)
+
+Remove a property.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<name> - string - The property to remove.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+B<boolean> - Always returns 1.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub remove_property {
     my ($self, $key) = @_;
     
