@@ -13,13 +13,120 @@
 # You should have received a copy of the GNU General Public License
 # along with perl-RestAuth.  If not, see <http://www.gnu.org/licenses/>.
 
+=head1 RestAuth::ContentHandler
+
+Baseclass for content handlers. Instances of this object can be
+passed to
+L<set_content_handler|RestAuth::Connection/set_content_handler_content_handler>
+if you want your connection to use a different data format.
+
+This is an abstract class and has only method stubs. This class
+documentation may be used if you want to implement your own subclasses.
+
+=cut
 package RestAuth::ContentHandler;
 
-sub encode_array {
-}
+=head2 encode_array(\%data)
 
-sub decode {
-}
+Encode an array.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<data> - Array - An array of key/value pairs to encode.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+B<string> - The encoded data.
+
+=back
+
+=cut
+sub encode_array {}
+
+=head2 decode_list($raw_data)
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<raw_data> - string - The encoded data.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+B<Array> - The decoded list.
+
+=back
+
+=cut
+sub decode_list {}
+
+=head2 decode_dict($raw_data)
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<raw_data> - string - The encoded data.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+B<Hash> - The decoded dictionary.
+
+=back
+
+=cut
+sub decode_dict {}
+
+=head2 decode_str($raw_data)
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<raw_data> - string - The encoded data.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+B<string> - The decoded string.
+
+=back
+
+=cut
+sub decode_str {}
 
 sub mime_type {
     my $self = shift;
