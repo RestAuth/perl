@@ -28,7 +28,7 @@ use HTTP::Response;
 use MIME::Base64;
 
 use RestAuth::Error::InternalServerError;
-use RestAuth::ContentHandler;
+use RestAuth::ContentHandler::Json;
 
 =head1 SUBROUTINES/METHODS
 
@@ -60,12 +60,17 @@ sub set_credentials {
     $self->{_auth_header} = "Basic " . encode_base64("$user:$pass");
 }
 
+=head2 set_content_handler($content_handler)
+
+Set content handler.
+
+=cut
 sub set_content_handler {
     my $self = shift;
     $self->{_content_handler} = shift;
     
     if (! defined $self->{_content_handler}) {
-        $self->{_content_handler} = new RestAuth::JsonContentHandler();
+        $self->{_content_handler} = new RestAuth::ContentHandler::Json();
     }
 }
 
