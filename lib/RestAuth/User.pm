@@ -13,9 +13,40 @@
 # You should have received a copy of the GNU General Public License
 # along with perl-RestAuth.  If not, see <http://www.gnu.org/licenses/>.
 
-=head1 RestAuth::User
+=head1 NAME
 
-A user on the RestAuth service.
+RestAuth::User - A user from a RestAuth service
+
+=head1 DESCRIPTION
+
+This class represents a user that is found in a RestAuth service. Note that
+having an instance of this class can never give you a strong guarantee that the
+user actually exists.
+
+If you create an instance via the L<constructor|/new>, no interaction with the
+RestAuth service happens. This is the recommended way of using RestAuth if you
+only want to perform a single operation and/or it is okay to just fail if the
+user does not exist.
+
+If you want to make sure that the user exists, call one of the factory methods
+L<get|/get_conn_username>, L<get_all|/get_all_conn> or
+L<create|/create_conn_username_password_undef_properties_indef>. See the
+L</SYNOPSIS> for details.
+
+=head1 SYNOPSIS
+
+    use RestAuth::User;
+    use RestAuth::Connection;
+    
+    # this user may or may not exist remotely:
+    $user = RestAuth::user->new("username");
+    $user->verify_password("custompass");
+    
+    # this user does exist remotely, at least right now:
+    $conn = RestAuth::Connection("https://auth.example.net", "service", "pass");
+    $user2 = RestAuth::User->get($conn, "username");
+
+=head1 METHODS
 
 =cut
 package RestAuth::User;
