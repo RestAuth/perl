@@ -19,7 +19,33 @@ use warnings;
 
 =head1 NAME
 
-RestAuth::Connection - this is a test!
+RestAuth::Connection - A connection to a RestAuth service
+
+=head1 DESCRIPTION
+
+An instance of this class represents a connection to a RestAuth service. If you
+develop using this library, you usually never have to use any methods of this
+class yourself besides providing an instance of this class to L<RestAuth::User>
+or L<RestAuth::Group> instances. It is however possible to change authentication
+credentials and the content-type used on the fly.
+
+=head1 SYNOPSIS
+
+    use RestAuth::Connection;
+    use RestAuth::ContentHandler::Json;
+    
+    # Note that the JSON handler is used as default
+    $conn = RestAuth::Connection->new(
+        'https://auth.example.com', 'username', 'password');
+    
+    # set new credentials:
+    $conn->set_credentials('new', 'password');
+    
+    # set a new content-handler
+    $handler = RestAuth::ContentHandler::Json->new();
+    $conn->set_content_handler($handler);
+
+=head1 METHODS
 
 =cut
 
@@ -30,11 +56,32 @@ use MIME::Base64;
 use RestAuth::Error::InternalServerError;
 use RestAuth::ContentHandler::Json;
 
-=head1 SUBROUTINES/METHODS
+=head2 new($url, $username, $password, $content_type=undef)
 
-=head2 new($url)
+The constructor for this class.
 
-foo
+PARAMETERS:
+
+=over
+
+=item *
+
+B<url> - string - The URL where the RestAuth service is available.
+
+=item *
+
+B<username> - string - The username used for authentication with RestAuth.
+
+=item *
+
+B<password> - string - The password used for authentication with RestAuth.
+
+=item *
+
+B<content_type> (optional) - L<RestAuth::ContentHandler> - Set to use a
+different content type instead of the default C<application/json>.
+
+=back
 
 =cut
 sub new {
@@ -52,7 +99,21 @@ sub new {
 
 =head2 set_credentials($username, $password)
 
-bar
+Set the credentials used by this connection.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<username> - string - The username used for authentication with RestAuth.
+
+=item *
+
+B<password> - string - The password used for authentcation with RestAuth.
+
+=back
 
 =cut
 sub set_credentials {
@@ -62,7 +123,18 @@ sub set_credentials {
 
 =head2 set_content_handler($content_handler)
 
-Set content handler.
+Set a different content handler.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<content_handler> - L<RestAuth::ContentHandler> - The new content handler to
+use.
+
+=back
 
 =cut
 sub set_content_handler {
@@ -72,11 +144,6 @@ sub set_content_handler {
     if (! defined $self->{_content_handler}) {
         $self->{_content_handler} = new RestAuth::ContentHandler::Json();
     }
-}
-
-sub get_mime_type {
-    my $self = shift;
-    return $self->{_content_handler}->mime_type;
 }
 
 sub request {
@@ -135,11 +202,55 @@ sub request {
     }
 }
 
+=head2 get($path)
+
+Do an HTTP GET request.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<path> - string - The path to do the GET request to.
+
+=back
+
+TODO:
+
+=over
+
+=item *
+
+Support query parameters
+
+=back
+
+=cut
 sub get {
     my ($self, $path) = @_;
     return $self->request('GET', $path);
 }
 
+=head2 post($path, $body)
+
+Do an HTTP POST request.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<path> - string - The path to do the GET request to.
+
+=item *
+
+B<body> - Hash - The (unencoded) HTTP body.
+
+=back
+
+=cut
 sub post {
     my ($self, $path, $body) = @_;
     my $response = $self->request('POST', $path, $body);
@@ -153,6 +264,25 @@ sub post {
     }
 }
 
+=head2 put($path, $body)
+
+Do an HTTP PUT request.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<path> - string - The path to do the GET request to.
+
+=item *
+
+B<body> - Hash - The (unencoded) HTTP body.
+
+=back
+
+=cut
 sub put {
     my ($self, $path, $body) = @_;
     my $response = $self->request('PUT', $path, $body);
@@ -166,22 +296,67 @@ sub put {
     }
 }
 
+=head2 delete($path)
+
+Do an HTTP DELETE request.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<path> - string - The path to do the GET request to.
+
+=back
+
+=cut
 sub delete {
     my ($self, $path) = @_;
     return $self->request('DELETE', $path);
 }
 
+# shortcut to get the mime-type of the currently used content handler
+sub get_mime_type {
+    my $self = shift;
+    return $self->{_content_handler}->mime_type;
+}
+
+# shortcut to the the decode_list function of the currently used content_handler
 sub decode_list {
     my ($self, $raw) = @_;
     return $self->{_content_handler}->decode_list($raw);
 }
+
+# shortcut to the the decode_dict function of the currently used content_handler
 sub decode_dict {
     my ($self, $raw) = @_;
     return $self->{_content_handler}->decode_dict($raw);
 }
+
+# shortcut to the the decode_str function of the currently used content_handler
 sub decode_str {
     my ($self, $raw) = @_;
     return $self->{_content_handler}->decode_str($raw);
 }
+
+=head1 BUGS
+
+To report bugs in this library please either join our RestAuth XMPP channel
+found at restauth@conference.jabber.at or file an issue in L<our bugtracker
+|https://redmine.fsinf.at/projects/restauth-perl>.
+
+=head1 LICENSE
+
+Copyright 2012, Mathias Ertl L<mati@restauth.net|mailto:mati@restauth.net>
+
+This software is free. It is licensed under the
+L<GNU General Public License, version 3|http://www.gnu.org/copyleft/gpl.html>.
+
+The latest version of this software should be available via
+L<our git repository|https://git.fsinf.at/restauth/perl> or via this projects
+homepage, L<perl.restauth.net|https://perl.restauth.net>.
+
+=cut
 
 1;
