@@ -13,7 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with perl-RestAuth.  If not, see <http://www.gnu.org/licenses/>.
 
-=head1 RestAuth::ContentHandler
+=head1 NAME
+
+RestAuth::ContentHandler - Baseclass for encoding/decoding content.
+
+=head1 DESCRIPTION
 
 Baseclass for content handlers. Instances of this object can be
 passed to
@@ -25,6 +29,12 @@ documentation may be used if you want to implement your own subclasses.
 
 The only implementation shipping with this library is
 L<RestAuth::ContentHandler::Json>.
+
+=head1 SYNOPSIS
+
+B<TODO>
+
+=head1 METHODS
 
 =cut
 package RestAuth::ContentHandler;
@@ -143,5 +153,24 @@ sub mime_type {
     no strict 'refs';
     return $$varname;
 }
+
+=head1 BUGS
+
+To report bugs in this library please either join our RestAuth XMPP channel
+found at restauth@conference.jabber.at or file an issue in L<our bugtracker
+|https://redmine.fsinf.at/projects/restauth-perl>.
+
+=head1 LICENSE
+
+Copyright 2012, Mathias Ertl L<mati@restauth.net|mailto:mati@restauth.net>
+
+This software is free. It is licensed under the
+L<GNU General Public License, version 3|http://www.gnu.org/copyleft/gpl.html>.
+
+The latest version of this software should be available via
+L<our git repository|https://git.fsinf.at/restauth/perl> or via this projects
+homepage, L<perl.restauth.net|https://perl.restauth.net>.
+
+=cut
 
 1;
