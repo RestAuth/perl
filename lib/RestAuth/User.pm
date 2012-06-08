@@ -19,9 +19,8 @@ RestAuth::User - A user from a RestAuth service
 
 =head1 DESCRIPTION
 
-This class represents a user that is found in a RestAuth service. Note that
-having an instance of this class can never give you a strong guarantee that the
-user actually exists.
+This class represents a user that is found in a RestAuth service. An instance of
+this class can never give you a strong guarantee that the user actually exists.
 
 If you create an instance via the L<constructor|/new>, no interaction with the
 RestAuth service happens. This is the recommended way of using RestAuth if you
@@ -687,5 +686,24 @@ sub remove_property {
         throw RestAuth::Error::UnknownStatus($resp);    
     } 
 }
+
+=head1 BUGS
+
+To report bugs in this library please either join our RestAuth XMPP channel
+found at restauth@conference.jabber.at or write an email to
+L<perl@restauth.net|mailto:perl@restauth.net>.
+
+=head1 LICENSE
+
+Copyright 2012, Mathias Ertl L<mati@restauth.net|mailto:mati@restauth.net>
+
+This software is free. It is licensed under the
+L<GNU General Public License, version 3|http://www.gnu.org/copyleft/gpl.html>.
+
+The latest version of this software should be available via
+L<our git repository|https://git.fsinf.at/restauth/perl> or via this projects
+homepage, L<perl.restauth.net|https://perl.restauth.net>.
+
+=cut
 
 1;
