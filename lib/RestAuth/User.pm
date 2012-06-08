@@ -690,8 +690,8 @@ sub remove_property {
 =head1 BUGS
 
 To report bugs in this library please either join our RestAuth XMPP channel
-found at restauth@conference.jabber.at or write an email to
-L<perl@restauth.net|mailto:perl@restauth.net>.
+found at restauth@conference.jabber.at or file an issue in L<our bugtracker
+|https://redmine.fsinf.at/projects/restauth-perl>.
 
 =head1 LICENSE
 
