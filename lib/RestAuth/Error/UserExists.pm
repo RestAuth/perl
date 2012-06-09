@@ -15,13 +15,21 @@
 
 =head1 NAME
 
-RestAuth::Error::UserExists - Attenpted to create a user that already exists
+RestAuth::Error::UserExists - Attempted to create a user that already exists
 
 =head1 DESCRIPTION
 
 This exception is thrown when a user that should be created already exists.
 
-This class is a subclass of L<RestAuth::Error::Conflict>.
+=head1 INHERITANCE
+
+=over
+
+=item *
+
+B<Superclasses:> L<RestAuth::Error::Conflict>
+
+=back
 
 =cut
 package RestAuth::Error::UserExists;
