@@ -253,6 +253,10 @@ sub get_users {
     my ($self) = @_;
 }
 
+sub user_in_group {
+    my ($self, $user) = @_;
+}
+
 sub remove_user {
     my ($self, $user) = @_;
 }
