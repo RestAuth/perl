@@ -10,7 +10,7 @@ lib/RestAuth/Error/Base.pm
 lib/RestAuth/Error/Conflict.pm
 lib/RestAuth/Error/ConnectionError.pm
 lib/RestAuth/Error/Forbidden.pm
-lib/RestAuth/Error/GroupDoesNotExist.pm
+lib/RestAuth/Error/GroupNotFound.pm
 lib/RestAuth/Error/GroupExists.pm
 lib/RestAuth/Error/Http.pm
 lib/RestAuth/Error/InternalServerError.pm
@@ -18,10 +18,11 @@ lib/RestAuth/Error/NotAcceptable.pm
 lib/RestAuth/Error/NotFound.pm
 lib/RestAuth/Error/PreconditionFailed.pm
 lib/RestAuth/Error/PropertyExists.pm
+lib/RestAuth/Error/PropertyNotFound.pm
 lib/RestAuth/Error/Unauthorized.pm
 lib/RestAuth/Error/UnknownStatus.pm
 lib/RestAuth/Error/UnsupportedMediaType.pm
-lib/RestAuth/Error/UserDoesNotExist.pm
+lib/RestAuth/Error/UserNotFound.pm
 lib/RestAuth/Error/UserExists.pm
 lib/RestAuth/Group.pm
 lib/RestAuth/User.pm

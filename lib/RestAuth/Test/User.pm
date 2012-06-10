@@ -76,7 +76,7 @@ sub test_only_username : Test(3) {
     my $self = shift;
     
     throws_ok { RestAuth::User->get($self->{conn}, 'username'); }
-        'RestAuth::Error::UserDoesNotExist', 'User does not exist.';
+        'RestAuth::Error::UserNotFound', 'User does not exist.';
     my $user = RestAuth::User->create($self->{conn}, 'username');
     isa_ok($user, 'RestAuth::User');
     ok($user->exists());
@@ -85,7 +85,7 @@ sub test_username_and_pass : Test(5) {
     my $self = shift;
     
     throws_ok { RestAuth::User->get($self->{conn}, 'username'); }
-        'RestAuth::Error::UserDoesNotExist', 'User does not exist.';
+        'RestAuth::Error::UserNotFound', 'User does not exist.';
     
     my $user = RestAuth::User->create($self->{conn}, 'username', 'userpassword');
     isa_ok($user, 'RestAuth::User');
@@ -101,7 +101,7 @@ sub test_username_and_props : Test(4) {
     );
     
     throws_ok { RestAuth::User->get($self->{conn}, 'username'); }
-        'RestAuth::Error::UserDoesNotExist', 'User does not exist.';
+        'RestAuth::Error::UserNotFound', 'User does not exist.';
     my $user = RestAuth::User->create($self->{conn}, 'username', undef, \%props);
     isa_ok($user, 'RestAuth::User');
     ok($user->exists());
@@ -117,7 +117,7 @@ sub test_all_params : Test(5) {
     );
     
     throws_ok { RestAuth::User->get($self->{conn}, 'username'); }
-        'RestAuth::Error::UserDoesNotExist', 'User does not exist.';
+        'RestAuth::Error::UserNotFound', 'User does not exist.';
     my $user = RestAuth::User->create($self->{conn}, 'username', 'userpassword', \%props);
     isa_ok($user, 'RestAuth::User');
     ok($user->exists());
@@ -131,7 +131,7 @@ sub test_user_exists : Test(8) {
     
     # first regulary create a user
     throws_ok { RestAuth::User->get($self->{conn}, 'username'); }
-        'RestAuth::Error::UserDoesNotExist', 'User does not exist.';
+        'RestAuth::Error::UserNotFound', 'User does not exist.';
     my $user = RestAuth::User->create($self->{conn}, 'username', 'orig_password');
     isa_ok($user, 'RestAuth::User');
     ok($user->exists());
@@ -152,7 +152,7 @@ sub test_user_short_password : Test(4) {
     throws_ok { RestAuth::User->create($self->{conn}, 'username', 'a'); }
         'RestAuth::Error::PreconditionFailed', 'Password too short.';
     throws_ok { RestAuth::User->get($self->{conn}, 'username'); }
-        'RestAuth::Error::UserDoesNotExist', 'User does not exist.';
+        'RestAuth::Error::UserNotFound', 'User does not exist.';
     
     my $user = RestAuth::User->new($self->{conn}, 'username');
     isa_ok($user, 'RestAuth::User');
@@ -176,7 +176,7 @@ sub test_all : Test(5) {
     my $self = shift;
     
     throws_ok { RestAuth::User->get($self->{conn}, 'username'); }
-        'RestAuth::Error::UserDoesNotExist', 'User does not exists';
+        'RestAuth::Error::UserNotFound', 'User does not exists';
     
     my $created = RestAuth::User->create($self->{conn}, 'username', 'userpassword');
     isa_ok($created, 'RestAuth::User');
@@ -284,7 +284,7 @@ sub test_user_doesnt_exist : Test(2) {
     my $user = RestAuth::User->new($self->{conn}, 'username');
     isa_ok($user, 'RestAuth::User');
     throws_ok { $user->set_password('newpassword'); }
-        'RestAuth::Error::UserDoesNotExist', "User doesn't exist.";
+        'RestAuth::Error::UserNotFound', "User doesn't exist.";
 }
 
 sub test_too_short : Test(4) {
@@ -329,7 +329,7 @@ sub test_user_doesnt_exist : Test(3) {
     
     my $user = RestAuth::User->new($self->{conn}, 'username');
     isa_ok($user, 'RestAuth::User');
-    throws_ok { $user->remove(); } 'RestAuth::Error::UserDoesNotExist', 'User does not exist.';
+    throws_ok { $user->remove(); } 'RestAuth::Error::UserNotFound', 'User does not exist.';
     ok(!$user->exists());
 }
 

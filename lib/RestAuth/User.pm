@@ -56,10 +56,10 @@ use RestAuth::Connection;
 use RestAuth::Resource;
 use RestAuth::Error::PreconditionFailed;
 use RestAuth::Error::PropertyExists;
-use RestAuth::Error::PropertyDoesNotExist;
+use RestAuth::Error::PropertyNotFound;
 use RestAuth::Error::UnknownStatus;
-use RestAuth::Error::UserDoesNotExist;
 use RestAuth::Error::UserExists;
+use RestAuth::Error::UserNotFound;
 
 our @ISA = qw(RestAuth::Resource);
 our $prefix = '/users/';
@@ -111,7 +111,7 @@ sub get {
     if ($response->code == 204) {
         return new RestAuth::User($conn, $name);
     } elsif ($response->code == 404) {
-        throw RestAuth::Error::UserDoesNotExist($response);
+        throw RestAuth::Error::UserNotFound($response);
     } else {
         throw RestAuth::Error::UnknownStatus($response);
     }
@@ -365,7 +365,7 @@ sub set_password {
     if ($response->code == 204) {
         return 1;
     } elsif ($response->code == 404) {
-        throw RestAuth::Error::UserDoesNotExist($response);
+        throw RestAuth::Error::UserNotFound($response);
     } elsif ($response->code == 412) {
         throw RestAuth::Error::PreconditionFailed($response);
     } else {
@@ -405,7 +405,7 @@ sub remove {
     if ($response->code == 204) {
         return 1;
     } elsif ($response->code == 404) {
-        throw RestAuth::Error::UserDoesNotExist($response);
+        throw RestAuth::Error::UserNotFound($response);
     } else {
         throw RestAuth::Error::UnknownStatus($response);
     }
@@ -443,7 +443,7 @@ sub get_properties {
         my %props = $self->{_conn}->decode_dict($resp->content());
         return %props;
     } elsif ($resp->code == 404) {
-        throw RestAuth::Error::UserDoesNotExist($resp);
+        throw RestAuth::Error::UserNotFound($resp);
     } else {
         throw RestAuth::Error::UnknownStatus($resp);
     }
@@ -498,7 +498,7 @@ sub create_property {
     if ($resp->code == 201) {
         return 1;
     } elsif ($resp->code == 404) {
-        throw RestAuth::Error::UserDoesNotExist($resp);
+        throw RestAuth::Error::UserNotFound($resp);
     } elsif ($resp->code == 409) {
         throw RestAuth::Error::PropertyExists($resp);
     } else {
@@ -550,9 +550,9 @@ sub get_property {
         return $raw[0];
     } elsif ($resp->code == 404) {
         if ($resp->header('Resource-Type') eq 'user') {
-            throw RestAuth::Error::UserDoesNotExist($resp);
+            throw RestAuth::Error::UserNotFound($resp);
         } elsif ($resp->header('Resource-Type') eq 'property') {
-            throw RestAuth::Error::PropertyDoesNotExist($resp);
+            throw RestAuth::Error::PropertyNotFound($resp);
         } else {
             throw RestAuth::Error::UnknownStatus($resp);
         }
@@ -611,7 +611,7 @@ sub set_property {
     } elsif ($resp->code == 201) {
         return 1;
     } elsif ($resp->code == 404) {
-        throw RestAuth::Error::UserDoesNotExist($resp);
+        throw RestAuth::Error::UserNotFound($resp);
     } else {
         throw RestAuth::Error::UnknownStatus($resp);
     }
@@ -660,9 +660,9 @@ sub remove_property {
         return 1;
     } elsif ($resp->code == 404) {
         if ($resp->header('Resource-Type') eq 'user') {
-            throw RestAuth::Error::UserDoesNotExist($resp);
+            throw RestAuth::Error::UserNotFound($resp);
         } elsif ($resp->header('Resource-Type') eq 'property') {
-            throw RestAuth::Error::PropertyDoesNotExist($resp);
+            throw RestAuth::Error::PropertyNotFound($resp);
         } else {
             throw RestAuth::Error::UnknownStatus($resp);
         }

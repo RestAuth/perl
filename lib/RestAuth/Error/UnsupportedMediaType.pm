@@ -15,7 +15,7 @@
 
 =head1 NAME
 
-RestAuth::Error::UserDoesNotExists - Sent content in wrong format.
+RestAuth::Error::UnsupportedMediaType - Sent content in wrong format.
 
 =head1 DESCRIPTION
 

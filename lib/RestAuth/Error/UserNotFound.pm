@@ -15,7 +15,7 @@
 
 =head1 NAME
 
-RestAuth::Error::UserDoesNotExists - Attemted to query a user that does not exist
+RestAuth::Error::UserNotFound - Attemted to query a user that does not exist
 
 =head1 DESCRIPTION
 
@@ -33,7 +33,7 @@ B<Superclasses:> L<RestAuth::Error::NotFound>
 =back
 
 =cut
-package RestAuth::Error::UserDoesNotExist;
+package RestAuth::Error::UserNotFound;
 use base RestAuth::Error::NotFound;
 
 =head1 BUGS

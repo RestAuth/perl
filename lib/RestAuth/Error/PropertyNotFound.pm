@@ -15,12 +15,12 @@
 
 =head1 NAME
 
-RestAuth::Error::GroupDoesNotExist - Attemted to query a group that does not exist
+RestAuth::Error::PropertyNotFound - Attemted to query a property that does not exist
 
 =head1 DESCRIPTION
 
-This exception is thrown when you perform an operation on a group that does not
-exist in the RestAuth database.
+This exception is thrown when you perform an operation on a user that
+does not exist in the RestAuth database.
 
 =head1 INHERITANCE
 
@@ -33,7 +33,7 @@ B<Superclasses:> L<RestAuth::Error::NotFound>
 =back
 
 =cut
-package RestAuth::Error::GroupDoesNotExist;
+package RestAuth::Error::PropertyNotFound;
 use base RestAuth::Error::NotFound;
 
 =head1 BUGS

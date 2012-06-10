@@ -33,9 +33,9 @@ B<Superclasses:> L<RestAuth::Error::Http>
 =item *
 
 B<Subclasses:>
-L<RestAuth::Error::GroupDoesNotExist>,
-L<RestAuth::Error::PropertyDoesNotExist>,
-L<RestAuth::Error::UserDoesNotExist>
+L<RestAuth::Error::GroupNotFound>,
+L<RestAuth::Error::PropertyNotFound>,
+L<RestAuth::Error::UserNotFound>
 
 =back
 

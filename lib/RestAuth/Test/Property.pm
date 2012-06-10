@@ -61,7 +61,7 @@ sub test_user_doesnt_exist : Test(2) {
     isa_ok($user, 'RestAuth::User');
     
     throws_ok { $user->get_properties(); }
-        'RestAuth::Error::UserDoesNotExist', 'Try getting properties';
+        'RestAuth::Error::UserNotFound', 'Try getting properties';
 }
 1;
 
@@ -96,7 +96,7 @@ sub test_create_user_doesnt_exist : Test(2) {
     isa_ok($user, 'RestAuth::User');
     
     throws_ok { $user->create_property('foo', 'bar'); }
-        'RestAuth::Error::UserDoesNotExist', 'Try to create property';
+        'RestAuth::Error::UserNotFound', 'Try to create property';
 }
 
 1;
@@ -123,14 +123,14 @@ sub test_user_doesnt_exist : Test(2) {
     isa_ok($user, 'RestAuth::User');
     
     throws_ok { $user->get_property('foo', 'bar'); }
-        'RestAuth::Error::UserDoesNotExist', 'Try to get property';
+        'RestAuth::Error::UserNotFound', 'Try to get property';
 }
 
 sub test_prop_doesnt_exist : Test(1) {
     my $self = shift;
     
     throws_ok { $self->{user}->get_property('email'); }
-        'RestAuth::Error::PropertyDoesNotExist', 'Retrieve not-existing value';
+        'RestAuth::Error::PropertyNotFound', 'Retrieve not-existing value';
 }
 
 1;
@@ -167,7 +167,7 @@ sub test_user_doesnt_exist : Test(2) {
     isa_ok($user, 'RestAuth::User');
     
     throws_ok { $user->set_property('email', 'mati@restauth.net'); }
-        'RestAuth::Error::UserDoesNotExist', 'Try to set property';
+        'RestAuth::Error::UserNotFound', 'Try to set property';
 }
 
 1;
@@ -187,7 +187,7 @@ sub test_remove : Test(3) {
     is($self->{user}->remove_property('email'), 1, 'Delete property');
     
     throws_ok { $self->{user}->get_property('email'); }
-        'RestAuth::Error::PropertyDoesNotExist', 'Try to retrieve it again';
+        'RestAuth::Error::PropertyNotFound', 'Try to retrieve it again';
 }
 
 sub test_user_doesnt_exist : Test(2) {
@@ -197,14 +197,14 @@ sub test_user_doesnt_exist : Test(2) {
     isa_ok($user, 'RestAuth::User');
     
     throws_ok { $user->remove_property('email'); }
-        'RestAuth::Error::UserDoesNotExist', 'Try to delete inexistent property';
+        'RestAuth::Error::UserNotFound', 'Try to delete inexistent property';
 }
 
 sub test_prop_doesnt_exist : Test(1) {
     my $self = shift;
     
     throws_ok { $self->{user}->remove_property('email'); }
-        'RestAuth::Error::PropertyDoesNotExist', 'Try to delete inexistent property';
+        'RestAuth::Error::PropertyNotFound', 'Try to delete inexistent property';
 }
 
 1;
