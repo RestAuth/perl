@@ -16,7 +16,7 @@
 =head3 RestAuth::Test::User::List
 Test listing users.
 =cut
-package RestAuth::Test::Group::Initial;
+package RestAuth::Test::Group::Create;
 use strict;
 use warnings;
 use RestAuth::Test;
@@ -25,7 +25,6 @@ use base qw(RestAuth::Test);
 use Test::More;
 use Test::Deep;
 
-#use RestAuth::User;
 use RestAuth::Group;
 
 sub test_whatever : Test(1) {
@@ -36,5 +35,122 @@ sub test_whatever : Test(1) {
     
     $group->request_get('', \%query);
 }
+
+1;
+
+package RestAuth::Test::Group::Get;
+use strict;
+use warnings;
+use RestAuth::Test;
+use base qw(RestAuth::Test);
+
+use Test::More;
+use Test::Deep;
+
+use RestAuth::Group;
+
+1;
+
+package RestAuth::Test::Group::GetAll;
+use strict;
+use warnings;
+use RestAuth::Test;
+use base qw(RestAuth::Test);
+
+use Test::More;
+use Test::Deep;
+
+use RestAuth::Group;
+
+1;
+
+package RestAuth::Test::Group::Exists;
+use strict;
+use warnings;
+use RestAuth::Test;
+use base qw(RestAuth::Test);
+
+use Test::More;
+use Test::Deep;
+
+use RestAuth::Group;
+
+1;
+
+package RestAuth::Test::Group::AddUser;
+use strict;
+use warnings;
+use RestAuth::Test;
+use base qw(RestAuth::Test);
+
+use Test::More;
+use Test::Deep;
+
+use RestAuth::Group;
+
+1;
+
+package RestAuth::Test::Group::GetUsers;
+use strict;
+use warnings;
+use RestAuth::Test;
+use base qw(RestAuth::Test);
+
+use Test::More;
+use Test::Deep;
+
+use RestAuth::Group;
+
+1;
+
+package RestAuth::Test::Group::RemoveUser;
+use strict;
+use warnings;
+use RestAuth::Test;
+use base qw(RestAuth::Test);
+
+use Test::More;
+use Test::Deep;
+
+use RestAuth::Group;
+
+1;
+
+package RestAuth::Test::Group::AddGroup;
+use strict;
+use warnings;
+use RestAuth::Test;
+use base qw(RestAuth::Test);
+
+use Test::More;
+use Test::Deep;
+
+use RestAuth::Group;
+
+1;
+
+package RestAuth::Test::Group::GetGroups;
+use strict;
+use warnings;
+use RestAuth::Test;
+use base qw(RestAuth::Test);
+
+use Test::More;
+use Test::Deep;
+
+use RestAuth::Group;
+
+1;
+
+package RestAuth::Test::Group::RemoveUser;
+use strict;
+use warnings;
+use RestAuth::Test;
+use base qw(RestAuth::Test);
+
+use Test::More;
+use Test::Deep;
+
+use RestAuth::Group;
 
 1;
