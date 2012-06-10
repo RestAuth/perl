@@ -57,11 +57,15 @@ sub make_fixture : Test(setup) {
     }
 };
 
+=head2 is_resource($got, $expected, $testname=undef)
+
+Test if two resources represent essentially the same resource.
+
+=cut
 sub is_resource {
     my ($self, $expected, $got, $testname) = @_;
     
     $testname = 'Resources are equal' if not defined $testname;
-    print "BLESSED: " . ref($expected) . "\n";
     
     subtest $testname => sub {
         isa_ok($got, ref($expected), '$excepted');
