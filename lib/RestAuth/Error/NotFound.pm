@@ -15,8 +15,7 @@
 
 =head1 NAME
 
-RestAuth::Error::NotFound - Superclass for exceptions related to entities that
-don't exist.
+RestAuth::Error::NotFound - Superclass for exceptions related to entities that don't exist.
 
 =head1 DESCRIPTION
 
@@ -34,6 +33,7 @@ B<Superclasses:> L<RestAuth::Error::Http>
 =item *
 
 B<Subclasses:>
+L<RestAuth::Error::GroupDoesNotExist>,
 L<RestAuth::Error::PropertyDoesNotExist>,
 L<RestAuth::Error::UserDoesNotExist>
 
