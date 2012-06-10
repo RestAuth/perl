@@ -17,7 +17,7 @@
 Property-related tests.
 =cut
 package RestAuth::Test::Property::GetAll;
-use RestAuth::Test::Base;
+use RestAuth::Test;
 use base qw(RestAuth::Test::PropertyBase);
 use strict;
 use warnings;

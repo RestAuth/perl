@@ -13,41 +13,24 @@
 # You should have received a copy of the GNU General Public License
 # along with perl-RestAuth.  If not, see <http://www.gnu.org/licenses/>.
 
-use Test::More;
-
 =head1 NAME
 
-RestAuth::Test::Base - Base module for common test functionality
+RestAuth::Test - Base class for common test functionality.
 
-=head2 resources_ok
-
-Test if the given resources are equal.
-
-=cut
-sub resources_ok {
-    my ($class, $got, $expected, $name) = @_;
-    
-    subtest 'Check resource equality' => sub {
-        cmp_deeply(\@{$got}, array_each(isa($class)), 'Check type of received elements.');
-        cmp_deeply(\@{$expected}, array_each(isa($class)), 'Check type of expected elements');
-        
-        is(scalar(@{$expected}), scalar(@{$got}), 'Lists are of equal length');
-        cmp_bag($got, $expected, 'Deep comparison of elements');
-    }
-}
-
-=head1 NAME
-
-RestAuth::Test::Base - Base class for common test functionality.
+=head1 DESCRIPTION
 
 Baseclass for all testcases
 
 =head1 METHODS
 
 =cut
-package RestAuth::Test::Base;
+package RestAuth::Test;
 use strict;
 use warnings;
+
+use Test::More;
+use Test::Deep;
+use Scalar::Util;
 
 use base qw(Test::Class);
 
@@ -69,13 +52,31 @@ sub make_fixture : Test(setup) {
     }
 };
 
+=head2 resources_ok($class, \@got, \@expected, $testname)
+
+Check that \@got and \@expected contain exactly the same resources.
+
+=cut
+sub resources_ok {
+    my ($self, $class, $got, $expected, $testname) = @_;
+    $testname = 'Check for equal resources' if not defined $testname;
+    
+    subtest $testname => sub {
+        cmp_deeply(\@{$got}, array_each(isa($class)), 'Check type of received elements.');
+        cmp_deeply(\@{$expected}, array_each(isa("RestAuth::User")), 'Check type of expected elements');
+        
+        is(scalar(@{$expected}), scalar(@{$got}), 'Lists are of equal length');
+        cmp_bag($got, $expected, 'Deep comparison of elements');
+    };
+}
+
 1;
 
 package RestAuth::Test::PropertyBase;
 use strict;
 use warnings;
 
-use base qw(RestAuth::Test::Base);
+use base qw(RestAuth::Test);
 use RestAuth::User;
 
 sub make_fixture : Test(setup) {

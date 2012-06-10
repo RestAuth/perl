@@ -19,8 +19,8 @@ Test listing users.
 package RestAuth::Test::User::List;
 use strict;
 use warnings;
-use RestAuth::Test::Base;
-use base qw(RestAuth::Test::Base);
+use RestAuth::Test;
+use base qw(RestAuth::Test);
 
 use Test::More;
 use Test::Deep;
@@ -42,7 +42,7 @@ sub test_one_user : Test(2) {
     my @expected_users = ($user);
     
     my @users = RestAuth::User->get_all($self->{conn});
-    resources_ok('RestAuth::User', \@users, \@expected_users, 'Check users');
+    $self->resources_ok('RestAuth::User', \@users, \@expected_users, 'Check users');
 }
 
 sub test_two_users : Test(3) {
@@ -56,7 +56,7 @@ sub test_two_users : Test(3) {
     my @expected_users = ($user1, $user2);
     
     my @users = RestAuth::User->get_all($self->{conn});
-    resources_ok('RestAuth::User', \@users, \@expected_users, 'Check users');
+    $self->resources_ok('RestAuth::User', \@users, \@expected_users, 'Check users');
 }
 
 1;
@@ -64,8 +64,8 @@ sub test_two_users : Test(3) {
 package RestAuth::Test::User::Create;
 use strict;
 use warnings;
-use RestAuth::Test::Base;
-use base qw(RestAuth::Test::Base);
+use RestAuth::Test;
+use base qw(RestAuth::Test);
 
 use Test::More;
 use Test::Exception;
@@ -164,8 +164,8 @@ sub test_user_short_password : Test(4) {
 package RestAuth::Test::User::Get;
 use strict;
 use warnings;
-use RestAuth::Test::Base;
-use base qw(RestAuth::Test::Base);
+use RestAuth::Test;
+use base qw(RestAuth::Test);
 
 use Test::More;
 use Test::Exception;
@@ -192,8 +192,8 @@ sub test_all : Test(5) {
 package RestAuth::Test::User::Exists;
 use strict;
 use warnings;
-use RestAuth::Test::Base;
-use base qw(RestAuth::Test::Base);
+use RestAuth::Test;
+use base qw(RestAuth::Test);
 
 use Test::More;
 
@@ -224,8 +224,8 @@ sub test_doesnt_exist : Test(2) {
 package RestAuth::Test::User::VerifyPassword;
 use strict;
 use warnings;
-use RestAuth::Test::Base;
-use base qw(RestAuth::Test::Base);
+use RestAuth::Test;
+use base qw(RestAuth::Test);
 
 use Test::More;
 
@@ -259,8 +259,8 @@ sub test_user_doesnt_exist : Test(2) {
 package RestAuth::Test::User::SetPassword;
 use strict;
 use warnings;
-use RestAuth::Test::Base;
-use base qw(RestAuth::Test::Base);
+use RestAuth::Test;
+use base qw(RestAuth::Test);
 
 use Test::More;
 use Test::Exception;
@@ -304,8 +304,8 @@ sub test_too_short : Test(4) {
 package RestAuth::Test::User::Remove;
 use strict;
 use warnings;
-use RestAuth::Test::Base;
-use base qw(RestAuth::Test::Base);
+use RestAuth::Test;
+use base qw(RestAuth::Test);
 
 use Test::More;
 use Test::Exception;

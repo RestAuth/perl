@@ -27,7 +27,7 @@ lib/RestAuth/Error/UserExists.pm
 lib/RestAuth/Group.pm
 lib/RestAuth/User.pm
 lib/RestAuth/Resource.pm
-lib/RestAuth/Test/Base.pm
+lib/RestAuth/Test.pm
 lib/RestAuth/Test/Property.pm
 lib/RestAuth/Test/User.pm
 Makefile.PL
