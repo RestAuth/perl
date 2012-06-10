@@ -229,7 +229,7 @@ sub create {
         throw RestAuth::Error::PreconditionFailed($response);
     } else {
         throw RestAuth::Error::UnknownStatus($response);
-    }   
+    }
 }
 
 =head2 exists()
