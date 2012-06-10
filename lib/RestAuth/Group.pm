@@ -28,6 +28,8 @@ package RestAuth::Group;
 use strict;
 use warnings;
 
+use URI::Escape;
+
 use RestAuth::Resource;
 use base qw(RestAuth::Resource);
 
@@ -140,7 +142,7 @@ B<TODO>
 sub get {
     my ($self, $conn, $name) = @_;
     
-    my $response = $conn->get("$prefix$name/");
+    my $response = $conn->get("$prefix" . uri_escape_utf8($name) . "/");
     if ($response->code == 204) {
         return new RestAuth::Group($conn, $name);
     } elsif ($response->code == 404) {
@@ -233,7 +235,7 @@ B<TODO>
 sub exists {
     my ($self) = @_;
     
-    my $response = $self->request_get("$self->{_name}/");
+    my $response = $self->request_get(uri_escape_utf8($self->{_name}) . "/");
     if ($response->code == 204) {
         return 1;
     } elsif ($response->code == 404) {
@@ -295,7 +297,7 @@ B<TODO>
 sub remove {
     my $self = shift;
     
-    my $response = $self->request_delete("$self->{_name}/");
+    my $response = $self->request_delete(uri_escape_utf8($self->{_name}) . "/");
     if ($response->code == 204) {
         return 1;
     } elsif ($response->code == 404) {
