@@ -28,7 +28,7 @@ and the server response indicates an error of some kind.
 
 =item *
 
-B<Superclasses:> L<RestAuth::Error::Base>
+B<Superclasses:> L<RestAuth::Error>
 
 =item *
 
@@ -50,7 +50,7 @@ L<RestAuth::Error::UnsupportedMediaType>,
 
 =cut
 package RestAuth::Error::Http;
-use base RestAuth::Error::Base;
+use base RestAuth::Error;
 
 =head2 new($response)
 

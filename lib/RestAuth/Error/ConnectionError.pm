@@ -28,13 +28,13 @@ response was received.
 
 =item *
 
-B<Superclasses:> L<RestAuth::Error::Base>
+B<Superclasses:> L<RestAuth::Error>
 
 =back
 
 =cut
 package RestAuth::Error::ConnectionError;
-use base RestAuth::Error::Base;
+use base RestAuth::Error;
 
 =head1 BUGS
 

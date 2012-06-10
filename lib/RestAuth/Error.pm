@@ -15,7 +15,7 @@
 
 =head1 NAME
 
-RestAuth::Error::Base - Superclass for all RestAuth related exceptions
+RestAuth::Error - Superclass for all RestAuth related exceptions
 
 =head1 DESCRIPTION
 
@@ -34,7 +34,7 @@ B<Subclasses:> L<RestAuth::Error::ConnectionError>, L<RestAuth::Error::Http>
 =head1 METHODS
 
 =cut
-package RestAuth::Error::Base;
+package RestAuth::Error;
 use base qw(Error);
 use overload ('""' => 'stringify');
 
