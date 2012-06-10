@@ -250,6 +250,20 @@ use RestAuth::Group;
 
 1;
 
+package RestAuth::Test::Group::GetAllForUser;
+
+use strict;
+use warnings;
+use RestAuth::Test;
+use base qw(RestAuth::Test);
+
+use Test::More;
+use Test::Deep;
+
+use RestAuth::Group;
+
+1;
+
 package RestAuth::Test::Group::Remove;
 use strict;
 use warnings;
