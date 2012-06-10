@@ -28,21 +28,28 @@ use Test::Exception;
 use RestAuth::Group;
 #use RestAuth::Error::GroupExists;
 
-sub test_create : Test(1) {
+sub test_create : Test(3) {
     my $self = shift;
     
+    throws_ok { RestAuth::Group->get($self->{conn}, 'groupname'); }
+        'RestAuth::Error::GroupNotFound', 'Group not found yet.';
     my $group = RestAuth::Group->create($self->{conn}, 'groupname');
+    isa_ok($group, 'RestAuth::Group');
     ok($group->exists());
 }
 
-sub test_create_twice : Test(2) {
+sub test_create_twice : Test(5) {
     my $self = shift;
     
+    throws_ok { RestAuth::Group->get($self->{conn}, 'groupname'); }
+        'RestAuth::Error::GroupNotFound', 'Group not found yet.';
     my $group = RestAuth::Group->create($self->{conn}, 'groupname');
+    isa_ok($group, 'RestAuth::Group');
     ok($group->exists());
     
     throws_ok { RestAuth::Group->create($self->{conn}, 'groupname'); }
         'RestAuth::Error::GroupExists', 'Group already exists.';
+    ok($group->exists());
 }
 
 sub test_create_short_name : Test(2) {
@@ -67,6 +74,19 @@ use Test::More;
 use Test::Deep;
 
 use RestAuth::Group;
+
+sub test_get : Test(1) {
+    my $self = shift;
+    
+    my $group = RestAuth::Group->create($self->{conn}, 'groupname');
+    my $get = RestAuth::Group->get($self->{conn}, 'groupname');
+    
+    $self->is_resource($group, $get);
+}
+
+sub test_get_not_found {
+    my $self = shift;
+}
 
 1;
 
@@ -162,6 +182,19 @@ use RestAuth::Group;
 1;
 
 package RestAuth::Test::Group::RemoveUser;
+use strict;
+use warnings;
+use RestAuth::Test;
+use base qw(RestAuth::Test);
+
+use Test::More;
+use Test::Deep;
+
+use RestAuth::Group;
+
+1;
+
+package RestAuth::Test::Group::Remove;
 use strict;
 use warnings;
 use RestAuth::Test;
