@@ -32,9 +32,12 @@ B<Superclasses:> L<RestAuth::Error::Base>
 
 =item *
 
-B<Subclasses:> L<RestAuth::Error::UnsupportedMediaType>,
-L<RestAuth::Error::NotFound>, L<RestAuth::Error::Conflict>,
-L<RestAuth::Error::UnknownStatus>
+B<Subclasses:>
+L<RestAuth::Error::Conflict>,
+L<RestAuth::Error::NotFound>,
+L<RestAuth::Error::Unauthorized>,
+L<RestAuth::Error::UnknownStatus>,
+L<RestAuth::Error::UnsupportedMediaType>,
 
 =back
 
