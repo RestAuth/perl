@@ -61,7 +61,7 @@ use RestAuth::Error::UnknownStatus;
 use RestAuth::Error::UserExists;
 use RestAuth::Error::UserNotFound;
 
-our @ISA = qw(RestAuth::Resource);
+use base qw(RestAuth::Resource);
 our $prefix = '/users/';
 
 =head2 get($conn, $username)
@@ -669,6 +669,22 @@ sub remove_property {
     } else {
         throw RestAuth::Error::UnknownStatus($resp);    
     } 
+}
+
+sub get_groups {
+    my $self = shift;
+}
+
+sub in_group {
+    my ($self, $group) = @_;
+}
+
+sub add_group {
+    my ($self, $group) = @_;
+}
+
+sub remove_group {
+    my ($self, $group) = @_;
 }
 
 =head1 BUGS
