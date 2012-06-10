@@ -34,6 +34,7 @@ B<Superclasses:> L<RestAuth::Error::Base>
 
 B<Subclasses:>
 L<RestAuth::Error::Conflict>,
+L<RestAuth::Error::InternalServerError>,
 L<RestAuth::Error::NotAcceptable>,
 L<RestAuth::Error::NotFound>,
 L<RestAuth::Error::PreconditionFailed>,
