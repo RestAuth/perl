@@ -54,6 +54,7 @@ use warnings;
 
 use RestAuth::Connection;
 use RestAuth::Resource;
+use RestAuth::Group;
 use RestAuth::Error::PreconditionFailed;
 use RestAuth::Error::PropertyExists;
 use RestAuth::Error::PropertyNotFound;
@@ -673,18 +674,29 @@ sub remove_property {
 
 sub get_groups {
     my $self = shift;
+    
+    return RestAuth::Group->get_all($self->{_conn}, $self->{_name});
 }
 
 sub in_group {
-    my ($self, $group) = @_;
+    my ($self, $groupname) = @_;
+    
+    my $group = RestAuth::Group->new($self->{_conn}, $groupname);
+    return $group->user_in_group($self->{_name});
 }
 
 sub add_group {
-    my ($self, $group) = @_;
+    my ($self, $groupname) = @_;
+    
+    my $group = RestAuth::Group->new($self->{_conn}, $groupname);
+    return $group->add_user($self->{_name})
 }
 
 sub remove_group {
-    my ($self, $group) = @_;
+    my ($self, $groupname) = @_;
+    
+    my $group = RestAuth::Group->new($self->{_conn}, $groupname);
+    return $group->remove_user($self->{_name});
 }
 
 =head1 BUGS
