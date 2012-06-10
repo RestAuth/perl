@@ -210,7 +210,7 @@ sub request {
     $curl->setopt(WWW::Curl::Share::CURLOPT_CUSTOMREQUEST(), $method);
     
     if ($body) {
-        my $encoded_body = $self->{_content_handler}->encode_array($body);
+        my $encoded_body = $self->{_content_handler}->encode_dict($body);
         $curl->setopt(WWW::Curl::Share::CURLOPT_POSTFIELDS(), $encoded_body);
         
         push(@headers, 'Content-Type: ' . $self->get_mime_type);

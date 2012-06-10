@@ -72,9 +72,9 @@ sub new {
 }
 
 
-=head2 encode_array(\%data)
+=head2 encode_dict(\%data)
 
-Encode an array.
+Encode a dictionary.
 
 PARAMETERS:
 
@@ -82,7 +82,7 @@ PARAMETERS:
 
 =item *
 
-B<data> - Array - An array of key/value pairs to encode.
+B<data> - Hash - A hash of key/value pairs to encode.
 
 =back
 
@@ -97,7 +97,7 @@ B<string> - The encoded data.
 =back
 
 =cut
-sub encode_array {}
+sub encode_dict {}
 
 =head2 decode_list($raw_data)
 

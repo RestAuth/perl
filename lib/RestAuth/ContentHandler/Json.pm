@@ -45,12 +45,12 @@ use JSON;
 our @ISA = qw(RestAuth::ContentHandler);
 our $_mime_type = 'application/json';
 
-=head2 encode_array(\%data)
+=head2 encode_dict(\%data)
 
-See L<RestAuth::ContentHandler-E<gt>encode_array()|RestAuth::ContentHandler/encode_array_data>.
+See L<RestAuth::ContentHandler-E<gt>encode_dict()|RestAuth::ContentHandler/encode_dict_data>.
 
 =cut
-sub encode_array {
+sub encode_dict {
     my ($self, $data) = @_;
     return encode_json(\%{$data});
 }
