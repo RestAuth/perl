@@ -89,7 +89,7 @@ RETURNS:
 
 =item *
 
-L<RestAuth::User> - A user guaranteed to exist in the RestAuth service
+L<RestAuth::User> - A user known to exist in the RestAuth service
 
 =back
 
