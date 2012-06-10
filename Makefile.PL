@@ -6,8 +6,8 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME                => 'RestAuth',
     AUTHOR              => q{Mathias Ertl <mati@restauth.net>},
-    VERSION_FROM        => 'lib/RestAuth.pm',
-    ABSTRACT_FROM       => 'lib/RestAuth.pm',
+    VERSION_FROM        => 'lib/Introduction.pod',
+    ABSTRACT_FROM       => 'lib/Introduction.pod',
     ($ExtUtils::MakeMaker::VERSION >= 6.3002
       ? ('LICENSE'=> 'perl')
       : ()),
