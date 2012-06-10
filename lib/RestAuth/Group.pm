@@ -15,7 +15,7 @@
 
 =head1 NAME
 
-RestAuth::Group - A grpup from a RestAuth service
+RestAuth::Group - A group from a RestAuth service
 
 =head1 DESCRIPTION
 
@@ -38,10 +38,56 @@ use RestAuth::Error::UnknownStatus;
 
 our $prefix = '/groups/';
 
+=head2 get_all($conn, $username=undef)
+
+Get all groups that exist in a RestAuth Service
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<conn> - L<RestAuth::Connection> - A connection to a RestAuth service.
+
+=item *
+
+B<username> (optional) - string - Only return groups that user with given name
+is a member of.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+Array of L<users|RestAuth::Group> - An array of groups known to exist.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+
+=cut
 sub get_all {
     my ($class, $conn, $username) = @_;
-
-    my $resp = $conn->get($prefix);
+    my $resp;
+    if (defined $username) {
+        my %params = ('user' => $username);
+        $resp = $conn->get($prefix, \%params);
+    } else {
+        $resp = $conn->get($prefix);
+    }
     my @groups = ();
     my @groupnames = $conn->decode_list($resp->content());
     
@@ -56,6 +102,45 @@ sub get {
     my ($self, $conn, $name) = @_;
 }
 
+=head2 create($conn, $name)
+
+Create a new group in the RestAuth service.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<conn> - L<RestAuth::Connection> - A connection to a RestAuth service.
+
+=item *
+
+B<username> - string - The name of the group.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+L<RestAuth::Group> - A group guaranteed to exist in the RestAuth service.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub create {
     my ($self, $conn, $name) = @_;
     
@@ -100,7 +185,7 @@ B<TODO>
 sub exists {
     my ($self) = @_;
     
-    my $response = $self->request_get("$prefix/$self->{name}")
+    my $response = $self->request_get("$self->{_name}/");
     if ($response->code == 204) {
         return 1;
     } elsif ($response->code == 404) {

@@ -45,8 +45,14 @@ sub test_create_twice : Test(2) {
         'RestAuth::Error::GroupExists', 'Group already exists.';
 }
 
-sub test_create_short_name : Test(1) {
+sub test_create_short_name : Test(2) {
     my $self = shift;
+    
+    throws_ok { RestAuth::Group->create($self->{conn}, 'a:b'); }
+        'RestAuth::Error::PreconditionFailed', 'Group name contains invalid characters.';
+        
+    throws_ok { RestAuth::Group->create($self->{conn}, 'a\b'); }
+        'RestAuth::Error::PreconditionFailed', 'Group name contains invalid characters.';
 }
 
 1;
