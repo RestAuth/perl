@@ -35,6 +35,7 @@ use base qw(Test::Class);
 
 use RestAuth::Connection;
 use RestAuth::User;
+use RestAuth::Group;
 
 =head2 make_fixture
 
@@ -48,6 +49,11 @@ sub make_fixture : Test(setup) {
     my @users = RestAuth::User->get_all($self->{conn});
     for my $user (@users) {
         $user->remove();
+    }
+    
+    my @groups = RestAuth::Group->get_all($self->{conn});
+    for my $group (@groups) {
+        $group->remove();
     }
 };
 
