@@ -146,11 +146,54 @@ sub set_content_handler {
     }
 }
 
+=head2 request($method, $path, $body=undef)
+
+Do an actual HTTP request. This method takes care of setting necessary request
+headers and authentication data, optionally encode a request body, parse the
+HTTP response and throws some exceptions that may occur on all requests.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<method> - string the HTTP method to perform. One of C<GET>, C<POST>, C<PUT>
+or C<DELETE>.
+
+=item *
+
+B<path> - string - The URL path of the method.
+
+=item *
+
+B<body> (optional) - Hash - An unencoded HTTP body
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+L<HTTP::Response|http://search.cpan.org/~gaas/HTTP-Message-6.03/lib/HTTP/Response.pm>
+ - The response to the request.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub request {
-    # parameters:
-    # * method
-    # * path
-    # * body (optional)
     my ($self, $method, $path, $body) = @_;
     my $response_body;
     my $curl = new WWW::Curl::Easy;
@@ -226,6 +269,27 @@ Support query parameters
 
 =back
 
+RETURNS:
+
+=over
+
+=item *
+
+L<HTTP::Response|http://search.cpan.org/~gaas/HTTP-Message-6.03/lib/HTTP/Response.pm>
+ - The response to the request.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
 =cut
 sub get {
     my ($self, $path) = @_;
@@ -247,6 +311,27 @@ B<path> - string - The path to do the GET request to.
 =item *
 
 B<body> - Hash - The (unencoded) HTTP body.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+L<HTTP::Response|http://search.cpan.org/~gaas/HTTP-Message-6.03/lib/HTTP/Response.pm>
+ - The response to the request.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
 
 =back
 
@@ -282,6 +367,27 @@ B<body> - Hash - The (unencoded) HTTP body.
 
 =back
 
+RETURNS:
+
+=over
+
+=item *
+
+L<HTTP::Response|http://search.cpan.org/~gaas/HTTP-Message-6.03/lib/HTTP/Response.pm>
+ - The response to the request.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
 =cut
 sub put {
     my ($self, $path, $body) = @_;
@@ -310,31 +416,68 @@ B<path> - string - The path to do the GET request to.
 
 =back
 
+RETURNS:
+
+=over
+
+=item *
+
+L<HTTP::Response|http://search.cpan.org/~gaas/HTTP-Message-6.03/lib/HTTP/Response.pm>
+ - The response to the request.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
 =cut
 sub delete {
     my ($self, $path) = @_;
     return $self->request('DELETE', $path);
 }
 
-# shortcut to get the mime-type of the currently used content handler
+=head2 get_mime_type()
+
+Shortcut to getting the MIME type currently used.
+
+=cut
 sub get_mime_type {
     my $self = shift;
     return $self->{_content_handler}->mime_type;
 }
 
-# shortcut to the the decode_list function of the currently used content_handler
+=head2 decode_list(\@raw)
+
+Shortcut to the decode_list function of the current content handler.
+
+=cut
 sub decode_list {
     my ($self, $raw) = @_;
     return $self->{_content_handler}->decode_list($raw);
 }
 
-# shortcut to the the decode_dict function of the currently used content_handler
+=head2 decode_dict(\%raw)
+
+Shortcut to the decode_dict function of the current content handler.
+
+=cut
 sub decode_dict {
     my ($self, $raw) = @_;
     return $self->{_content_handler}->decode_dict($raw);
 }
 
-# shortcut to the the decode_str function of the currently used content_handler
+=head2 decode_str($raw)
+
+Shortcut to the decode_str function of the current content handler.
+
+=cut
 sub decode_str {
     my ($self, $raw) = @_;
     return $self->{_content_handler}->decode_str($raw);
