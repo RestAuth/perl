@@ -23,6 +23,7 @@ WriteMakefile(
         'HTTP::Response' => 0,
         'MIME::Base64' => 0,
         'Error' => 0,
+        'URI::Escape' => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'RestAuth-*' },
