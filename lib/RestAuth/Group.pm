@@ -77,7 +77,6 @@ B<TODO>
 
 =back
 
-
 =cut
 sub get_all {
     my ($class, $conn, $username) = @_;
@@ -98,8 +97,57 @@ sub get_all {
     return @groups;
 }
 
+=head2 get($conn, $name)
+
+Factory method for getting a group from the RestAuth service. An instance
+returned by this method is guaranteed to exist.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<conn> - L<RestAuth::Connection> - A connection to a RestAuth service.
+
+=item *
+
+B<name> - string - The name of the group
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+L<users|RestAuth::Group> - A group known to exist in RestAuth
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub get {
     my ($self, $conn, $name) = @_;
+    
+    my $response = $conn->get("$prefix$name/");
+    if ($response->code == 204) {
+        return new RestAuth::Group($conn, $name);
+    } elsif ($response->code == 404) {
+        throw RestAuth::Error::GroupNotFound($response);
+    } else {
+        throw RestAuth::Error::UnknownStatus($response);
+    }
 }
 
 =head2 create($conn, $name)
