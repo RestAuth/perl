@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 1;
+use Test::More tests => 5;
 
 BEGIN {
     use_ok( 'RestAuth::Connection' ) || print "Bail out!\n";
