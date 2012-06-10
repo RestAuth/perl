@@ -4,7 +4,7 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME                => 'RestAuth',
+    NAME                => 'RestAuth.pm',
     AUTHOR              => q{Mathias Ertl <mati@restauth.net>},
     VERSION_FROM        => 'lib/Introduction.pod',
     ABSTRACT_FROM       => 'lib/Introduction.pod',
