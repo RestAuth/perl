@@ -52,6 +52,7 @@ credentials and the content-type used on the fly.
 use WWW::Curl::Share;
 use HTTP::Response;
 use MIME::Base64;
+use URI::Escape;
 
 use RestAuth::Error::InternalServerError;
 use RestAuth::ContentHandler::Json;
@@ -257,15 +258,9 @@ PARAMETERS:
 
 B<path> - string - The path to do the GET request to.
 
-=back
-
-TODO:
-
-=over
-
 =item *
 
-Support query parameters
+B<parameters> (optional) - Hash - Additional query parameters.
 
 =back
 
@@ -292,7 +287,10 @@ B<TODO>
 
 =cut
 sub get {
-    my ($self, $path) = @_;
+    my ($self, $path, $parameters) = @_;
+    if (defined $parameters) {
+        $path .= $self->encode_querystring(\%{$parameters});
+    }
     return $self->request('GET', $path);
 }
 
@@ -441,6 +439,42 @@ B<TODO>
 sub delete {
     my ($self, $path) = @_;
     return $self->request('DELETE', $path);
+}
+
+=head2 encode_querystring(\%parameters)
+
+Safely ncode a querystring.
+
+PARAMETERS:
+
+=over
+
+=item *
+
+B<parameters> - Hash - A Hash of key/value pairs
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+string - The encoded querystring
+
+=back
+
+=cut
+sub encode_querystring {
+    my ($self, $parameters) = @_;
+    
+    my @pairs;
+    for my $key (keys $parameters) {
+        push @pairs, join "=", map { uri_escape_utf8($_) } $key, ${$parameters}{$key};
+    }
+    
+    return join "&", @pairs;
 }
 
 =head2 get_mime_type()

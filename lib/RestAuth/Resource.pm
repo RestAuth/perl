@@ -97,10 +97,10 @@ B<TODO>
 
 =cut
 sub request_get {
-    my ($self, $path) = @_;
+    my ($self, $path, $parameters) = @_;
     $path = $self->prefix . $path;
     
-    return $self->{_conn}->get($path);
+    return $self->{_conn}->get($path, $parameters);
 }
 
 =head2 request_post
