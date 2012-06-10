@@ -13,9 +13,15 @@
 # You should have received a copy of the GNU General Public License
 # along with RestAuth.pm.  If not, see <http://www.gnu.org/licenses/>.
 
-=head1 RestAuth::Group
+=head1 NAME
 
-A group in RestAuth.
+RestAuth::Group - A grpup from a RestAuth service
+
+=head1 DESCRIPTION
+
+=head1 SYNOPSIS
+
+=head1 METHODS
 
 =cut
 package RestAuth::Group;
@@ -25,10 +31,25 @@ use warnings;
 use RestAuth::Resource;
 use base qw(RestAuth::Resource);
 
+use RestAuth::Error::GroupNotFound;
+use RestAuth::Error::GroupExists;
+use RestAuth::Error::PreconditionFailed;
+use RestAuth::Error::UnknownStatus;
+
 our $prefix = '/groups/';
 
 sub get_all {
-    my ($self, $conn) = @_;
+    my ($class, $conn, $username) = @_;
+
+    my $resp = $conn->get($prefix);
+    my @groups = ();
+    my @groupnames = $conn->decode_list($resp->content());
+    
+    foreach (@groupnames) {
+        push(@groups, RestAuth::Group->new($conn, $_));
+    }
+
+    return @groups;
 }
 
 sub get {
@@ -37,10 +58,56 @@ sub get {
 
 sub create {
     my ($self, $conn, $name) = @_;
+    
+    my %body = ('group' => $name);
+    my $response = $conn->post($prefix, \%body);
+    if ($response->code == 201) {
+        return new RestAuth::Group($conn, $name);
+    } elsif ($response->code == 409) {
+        throw RestAuth::Error::GroupExists($response);
+    } elsif ($response->code == 412) {
+        throw RestAuth::Error::PreconditionFailed($response);
+    } else {
+        throw RestAuth::Error::UnknownStatus($response);
+    }
 }
 
+=head2 exists()
+
+Verify that the group actually exists.
+
+RETURNS:
+
+=over
+
+=item *
+
+B<boolean> - 1 if the group exists, 0 otherwise.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
 sub exists {
     my ($self) = @_;
+    
+    my $response = $self->request_get("$prefix/$self->{name}")
+    if ($response->code == 204) {
+        return 1;
+    } elsif ($response->code == 404) {
+        return 0;
+    } else {
+        throw RestAuth::Error::UnknownStatus($response);
+    }
 }
 
 sub add_user {
@@ -65,6 +132,44 @@ sub get_groups {
 
 sub remove_group {
     my ($self, $group) = @_;
+}
+
+=head2 remove()
+
+Remove the group from RestAuth.
+
+RETURNS:
+
+=over
+
+=item *
+
+B<boolean> - Always returns 1.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
+=cut
+sub remove {
+    my $self = shift;
+    
+    my $response = $self->request_delete("$self->{_name}/");
+    if ($response->code == 204) {
+        return 1;
+    } elsif ($response->code == 404) {
+        throw RestAuth::Error::GroupNotFound($response);
+    } else {
+        throw RestAuth::Error::UnknownStatus($response);
+    }
 }
 
 =head1 BUGS
