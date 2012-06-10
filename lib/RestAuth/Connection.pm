@@ -289,7 +289,7 @@ B<TODO>
 sub get {
     my ($self, $path, $parameters) = @_;
     if (defined $parameters) {
-        $path .= $self->encode_querystring(\%{$parameters});
+        $path .= "&" . $self->encode_querystring(\%{$parameters});
     }
     return $self->request('GET', $path);
 }
