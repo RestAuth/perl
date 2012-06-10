@@ -15,8 +15,7 @@
 
 =head1 NAME
 
-RestAuth::Error::Conflict - Superclass for exceptions related to entities that
-already exist.
+RestAuth::Error::Conflict - Superclass for exceptions related to entities that already exist.
 
 =head1 DESCRIPTION
 
@@ -34,6 +33,7 @@ B<Superclasses:> L<RestAuth::Error::Http>
 =item *
 
 B<Subclasses:>
+L<RestAuth::Error::GroupExists>,
 L<RestAuth::Error::PropertyExists>,
 L<RestAuth::Error::UserExists>
 
