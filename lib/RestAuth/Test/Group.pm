@@ -23,17 +23,30 @@ use RestAuth::Test;
 use base qw(RestAuth::Test);
 
 use Test::More;
-use Test::Deep;
+use Test::Exception;
 
 use RestAuth::Group;
+#use RestAuth::Error::GroupExists;
 
-sub test_whatever : Test(1) {
+sub test_create : Test(1) {
     my $self = shift;
-    my $group = RestAuth::Group->new($self->{conn}, 'groupname');
     
-    my %query = ('foo' => 'bar bar');
+    my $group = RestAuth::Group->create($self->{conn}, 'groupname');
+    ok($group->exists());
+}
+
+sub test_create_twice : Test(2) {
+    my $self = shift;
     
-    $group->request_get('', \%query);
+    my $group = RestAuth::Group->create($self->{conn}, 'groupname');
+    ok($group->exists());
+    
+    throws_ok { RestAuth::Group->create($self->{conn}, 'groupname'); }
+        'RestAuth::Error::GroupExists', 'Group already exists.';
+}
+
+sub test_create_short_name : Test(1) {
+    my $self = shift;
 }
 
 1;
