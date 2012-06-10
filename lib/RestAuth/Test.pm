@@ -30,7 +30,6 @@ use warnings;
 
 use Test::More;
 use Test::Deep;
-use Scalar::Util;
 
 use base qw(Test::Class);
 
