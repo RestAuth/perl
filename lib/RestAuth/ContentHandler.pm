@@ -32,12 +32,45 @@ L<RestAuth::ContentHandler::Json>.
 
 =head1 SYNOPSIS
 
-B<TODO>
+    # example for the JSON content handler:
+    
+    use RestAuth::ContentHandler::Json;
+    use RestAuth::Connection;
+    
+    $handler = RestAuth::ContentHandler::Json->new()
+    $conn = RestAuth::Connection->new('http://auth.example.com', 'user', 'pass', $handler);
+    
+    # set the same handler again:
+    $conn->set_content_handler($handler);
+
+=head1 INHERITANCE
+
+=over
+
+=item *
+
+B<Subclasses:> L<RestAuth::ContentHandler::Json>
+
+=back
 
 =head1 METHODS
 
 =cut
 package RestAuth::ContentHandler;
+
+=head2 new()
+
+Basic constructor.
+
+=cut
+sub new {
+    my $class = shift;
+    my $self = {};
+
+    bless $self, $class;        
+    return $self;
+}
+
 
 =head2 encode_array(\%data)
 
