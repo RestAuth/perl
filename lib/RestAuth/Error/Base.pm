@@ -64,7 +64,6 @@ sub new {
     $self->SUPER::new(-text => $text, @args);
 }
 
-
 =head1 BUGS
 
 To report bugs in this library please either join our RestAuth XMPP channel
