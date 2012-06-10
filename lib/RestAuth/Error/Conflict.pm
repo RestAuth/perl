@@ -33,7 +33,9 @@ B<Superclasses:> L<RestAuth::Error::Http>
 
 =item *
 
-B<Subclasses:> L<RestAuth::Error::UserExists>
+B<Subclasses:>
+L<RestAuth::Error::PropertyExists>,
+L<RestAuth::Error::UserExists>
 
 =back
 
