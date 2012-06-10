@@ -35,6 +35,7 @@ B<Superclasses:> L<RestAuth::Error::Base>
 B<Subclasses:>
 L<RestAuth::Error::Conflict>,
 L<RestAuth::Error::NotFound>,
+L<RestAuth::Error::PreconditionFailed>,
 L<RestAuth::Error::Unauthorized>,
 L<RestAuth::Error::UnknownStatus>,
 L<RestAuth::Error::UnsupportedMediaType>,
