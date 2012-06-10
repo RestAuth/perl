@@ -33,6 +33,7 @@ B<Superclasses:> L<RestAuth::Error::Base>
 =item *
 
 B<Subclasses:>
+L<RestAuth::Error::BadRequest>,
 L<RestAuth::Error::Conflict>,
 L<RestAuth::Error::Forbidden>,
 L<RestAuth::Error::InternalServerError>,
