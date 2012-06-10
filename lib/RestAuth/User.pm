@@ -64,22 +64,6 @@ use RestAuth::Error::UserExists;
 our @ISA = qw(RestAuth::Resource);
 our $prefix = '/users/';
 
-=head2 new
-
-Constructor.
-
-=cut
-sub new {
-    my $class = shift;
-    my $self = {
-        _conn => shift,
-        _name => shift,
-    };
-
-    bless $self, $class;        
-    return $self;
-}
-
 =head2 get($conn, $username)
 
 Factory method for getting a user from the RestAuth service. An instance

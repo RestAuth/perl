@@ -13,23 +13,38 @@
 # You should have received a copy of the GNU General Public License
 # along with perl-RestAuth.  If not, see <http://www.gnu.org/licenses/>.
 
-=head1 RestAuth::Resource
+=head1 NAME
 
-Baseclass for users and groups.
+RestAuth::Resource - Baseclass for users and groups.
+
+=head1 DESCRIPTION
+
+This class acts as a small baseclass for L<RestAuth::User> and
+L<RestAuth::Group>. The only functionality is a unified constructor and
+shortcuts for HTTP methods that prefix the path passed to them with either
+C</users/> or C</groups/>.
+
+=head1 METHODS
 
 =cut
 
 package RestAuth::Resource;
 
-=head2 new
+=head2 new($conn, $name)
 
 Basic constructor.
+
+PARAMETERS:
 
 =over
 
 =item *
 
-B<TODO:> Unify constructor of base-classes here.
+B<conn> - L<RestAuth::Connection> - The connection to use.
+
+=item *
+
+B<name> - string - The name of the resource.
 
 =back
 
@@ -38,9 +53,10 @@ sub new {
     my $class = shift;
     my $self = {
         _conn => shift,
+        _name => shift,
     };
 
-    bless $self, $class;
+    bless $self, $class;        
     return $self;
 }
 
@@ -55,6 +71,27 @@ Parameters:
 =item *
 
 B<path> - The path to use for the GET request.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+L<HTTP::Response|http://search.cpan.org/~gaas/HTTP-Message-6.03/lib/HTTP/Response.pm>
+ - The response to the request.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
 
 =back
 
@@ -81,6 +118,27 @@ B<path> - The path for the POST request.
 =item *
 
 B<body> - The request body.
+
+=back
+
+RETURNS:
+
+=over
+
+=item *
+
+L<HTTP::Response|http://search.cpan.org/~gaas/HTTP-Message-6.03/lib/HTTP/Response.pm>
+ - The response to the request.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
 
 =back
 
@@ -132,6 +190,27 @@ B<path> - The path for the DELETE request.
 
 =back
 
+RETURNS:
+
+=over
+
+=item *
+
+L<HTTP::Response|http://search.cpan.org/~gaas/HTTP-Message-6.03/lib/HTTP/Response.pm>
+ - The response to the request.
+
+=back
+
+THROWS:
+
+=over
+
+=item *
+
+B<TODO>
+
+=back
+
 =cut
 sub request_delete {
     my ($self, $path) = @_;
@@ -142,7 +221,7 @@ sub request_delete {
 
 =head2 prefix
 
-Get this concrete classes prefix for ULR paths.
+Get this concrete classes prefix for URL paths.
 
 =cut    
 sub prefix {
