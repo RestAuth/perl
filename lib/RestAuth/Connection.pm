@@ -288,7 +288,7 @@ B<TODO>
 =cut
 sub get {
     my ($self, $path, $parameters) = @_;
-    if (defined $parameters) {
+    if (defined $parameters and scalar($parameters) > 0) {
         $path .= "&" . $self->encode_querystring(\%{$parameters});
     }
     return $self->request('GET', $path);
