@@ -57,6 +57,21 @@ sub make_fixture : Test(setup) {
     }
 };
 
+sub is_resource {
+    my ($self, $expected, $got, $testname) = @_;
+    
+    $testname = 'Resources are equal' if not defined $testname;
+    print "BLESSED: " . ref($expected) . "\n";
+    
+    subtest $testname => sub {
+        isa_ok($got, ref($expected), '$excepted');
+        is($expected->{_name}, $got->{_name}, 'Name of resource');
+        is($expected->{_conn}->{_url}, $got->{_conn}->{_url}, 'Connection URL');
+        is($expected->{_conn}->{_auth_header},
+           $got->{_conn}->{_auth_header}, 'Connection credentials');
+    }
+}
+
 =head2 resources_ok($class, \@got, \@expected, $testname)
 
 Check that \@got and \@expected contain exactly the same resources.
@@ -68,7 +83,7 @@ sub resources_ok {
     
     subtest $testname => sub {
         cmp_deeply(\@{$got}, array_each(isa($class)), 'Check type of received elements.');
-        cmp_deeply(\@{$expected}, array_each(isa("RestAuth::User")), 'Check type of expected elements');
+        cmp_deeply(\@{$expected}, array_each(isa($class)), 'Check type of expected elements');
         
         is(scalar(@{$expected}), scalar(@{$got}), 'Lists are of equal length');
         cmp_bag($got, $expected, 'Deep comparison of elements');
