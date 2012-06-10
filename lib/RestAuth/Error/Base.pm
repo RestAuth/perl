@@ -27,7 +27,7 @@ This class is a superclass for all exceptions related to RestAuth.
 
 =item *
 
-B<Subclasses:> L<RestAuth::Error::Http>
+B<Subclasses:> L<RestAuth::Error::ConnectionError>, L<RestAuth::Error::Http>
 
 =back
 
