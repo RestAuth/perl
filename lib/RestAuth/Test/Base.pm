@@ -15,6 +15,15 @@
 
 use Test::More;
 
+=head1 NAME
+
+RestAuth::Test::Base - Base module for common test functionality
+
+=head2 resources_ok
+
+Test if the given resources are equal.
+
+=cut
 sub resources_ok {
     my ($class, $got, $expected, $name) = @_;
     
@@ -27,9 +36,13 @@ sub resources_ok {
     }
 }
 
-=head1 RestAuth::Test::Base
+=head1 NAME
+
+RestAuth::Test::Base - Base class for common test functionality.
 
 Baseclass for all testcases
+
+=head1 METHODS
 
 =cut
 package RestAuth::Test::Base;
@@ -41,12 +54,11 @@ use base qw(Test::Class);
 use RestAuth::Connection;
 use RestAuth::User;
 
-=head1 make_fixture
+=head2 make_fixture
 
 Run at the start of every test.
 
 =cut
-
 sub make_fixture : Test(setup) {
     my $self = shift;
     $self->{conn} = new RestAuth::Connection('http://[::1]:8000', 'example.com', 'example');
