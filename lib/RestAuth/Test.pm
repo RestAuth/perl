@@ -71,19 +71,3 @@ sub resources_ok {
 }
 
 1;
-
-package RestAuth::Test::PropertyBase;
-use strict;
-use warnings;
-
-use base qw(RestAuth::Test);
-use RestAuth::User;
-
-sub make_fixture : Test(setup) {
-    my $self = shift;
-    $self->SUPER::make_fixture;
-    
-    $self->{user} = RestAuth::User->create($self->{conn}, 'username');
-}
-
-1;

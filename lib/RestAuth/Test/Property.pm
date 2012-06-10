@@ -13,12 +13,33 @@
 # You should have received a copy of the GNU General Public License
 # along with perl-RestAuth.  If not, see <http://www.gnu.org/licenses/>.
 
+package RestAuth::Test::Property;
+use strict;
+use warnings;
+
+use base qw(RestAuth::Test);
+use RestAuth::User;
+
+=head2 make_fixture
+
+Run at the start of every test.
+
+=cut
+sub make_fixture : Test(setup) {
+    my $self = shift;
+    $self->SUPER::make_fixture;
+    
+    $self->{user} = RestAuth::User->create($self->{conn}, 'username');
+}
+
+1;
+
 =head3 RestAuth::Test::Property::GetAll
 Property-related tests.
 =cut
 package RestAuth::Test::Property::GetAll;
 use RestAuth::Test;
-use base qw(RestAuth::Test::PropertyBase);
+use base qw(RestAuth::Test::Property);
 use strict;
 use warnings;
 
@@ -66,7 +87,7 @@ sub test_user_doesnt_exist : Test(2) {
 1;
 
 package RestAuth::Test::Property::Create;
-use base qw(RestAuth::Test::PropertyBase);
+use base qw(RestAuth::Test::Property);
 use strict;
 use warnings;
 
@@ -102,7 +123,7 @@ sub test_create_user_doesnt_exist : Test(2) {
 1;
 
 package RestAuth::Test::Property::Get;
-use base qw(RestAuth::Test::PropertyBase);
+use base qw(RestAuth::Test::Property);
 use strict;
 use warnings;
 
@@ -136,7 +157,7 @@ sub test_prop_doesnt_exist : Test(1) {
 1;
 
 package RestAuth::Test::Property::Set;
-use base qw(RestAuth::Test::PropertyBase);
+use base qw(RestAuth::Test::Property);
 use strict;
 use warnings;
 
@@ -173,7 +194,7 @@ sub test_user_doesnt_exist : Test(2) {
 1;
 
 package RestAuth::Test::Property::Remove;
-use base qw(RestAuth::Test::PropertyBase);
+use base qw(RestAuth::Test::Property);
 use strict;
 use warnings;
 
