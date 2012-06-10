@@ -18,14 +18,54 @@
 A group in RestAuth.
 
 =cut
-package RestAuth::User;
+package RestAuth::Group;
 use strict;
 use warnings;
 
 use RestAuth::Resource;
+use base qw(RestAuth::Resource);
 
-our @ISA = qw(RestAuth::Resource);
 our $prefix = '/groups/';
+
+sub get_all {
+    my ($self, $conn) = @_;
+}
+
+sub get {
+    my ($self, $conn, $name) = @_;
+}
+
+sub create {
+    my ($self, $conn, $name) = @_;
+}
+
+sub exists {
+    my ($self) = @_;
+}
+
+sub add_user {
+    my ($self, $user) = @_;
+}
+
+sub get_users {
+    my ($self) = @_;
+}
+
+sub remove_user {
+    my ($self, $user) = @_;
+}
+
+sub add_group {
+    my ($self, $group) = @_;
+}
+
+sub get_groups {
+    my ($self) = @_;
+}
+
+sub remove_group {
+    my ($self, $group) = @_;
+}
 
 =head1 BUGS
 
